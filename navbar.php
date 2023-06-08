@@ -19,6 +19,7 @@ require 'head.php'; ?>
 <!-- Script untuk nama file -->
 <script src="/Script/custom-file.js"></script>
 
+<div class="wrapper">
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Logo -->

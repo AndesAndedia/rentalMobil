@@ -60,7 +60,7 @@ include './connection/koneksi.php';
         </div>
       </div>
       <!-- /.card-header -->
-      <div class="card-body table-responsive p-0" style="height: 300px;">
+      <div class="card-body table-responsive p-0" style="height: 500px;">
         <table class="table table-head-fixed text-nowrap">
           <thead>
             <tr>
@@ -84,7 +84,8 @@ include './connection/koneksi.php';
                 <td align="center"><img src="<?php echo "file/".$arr['foto'];?>" alt="Foto Mobil" width='160' height='90'></td>
                 <td><?php echo $arr['status']; ?></td>
                 <td> 
-                <a href="formEditMobil.php?nopol=<?php echo $arr['nopol'] ?>"><button type="button" class="btn btn-warning">Edit</button></a></td>
+                <a href="formEditMobil.php?nopol=<?php echo $arr['nopol'] ?>"><button type="button" class="btn btn-warning">Edit</button></a>
+                <a href="hapusMobil.php?nopol=<?php echo $arr['nopol'] ?>"><button type="button" class="btn btn-danger">Hapus</button></a></td>
               </tr>
             <?php } ?>
           </tbody>

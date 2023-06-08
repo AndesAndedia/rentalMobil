@@ -22,6 +22,7 @@
     <script src="style/AdminLTE/js/adminlte.min.js"></script>
 
     <?php
+    require 'navbar.php';
     include './connection/koneksi.php';
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -45,7 +46,7 @@
                 $query = mysqli_query($con, "INSERT INTO mobil VALUES('$nomor','$jenis','$harga', 'Tersedia', '$nama')");
                 if ($query) {
                     $status = "Data berhasil diinput!";
-                    echo "<script>window.location.href = 'index.php';</script>";
+                    echo "<script>window.location.href = 'daftarMobil.php';</script>";
                     exit();
                 } else {
                     $status =  "Data gagal diinput!";
