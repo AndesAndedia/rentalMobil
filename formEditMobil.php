@@ -20,46 +20,6 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="style/AdminLTE/css/adminlte.css">
     <script src="style/AdminLTE/js/adminlte.min.js"></script>
-
-    <?php
-    include './connection/koneksi.php';
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $status = "";
-
-        $nomor = $_POST['nopol'];
-        $jenis = $_POST['jenisMobil'];
-        $harga = $_POST['hargaMobil'];
-
-        $ekstensi_diperbolehkan    = array('png', 'jpg');
-        $nama = $_FILES['gambarMobil']['name'];
-        $x = explode('.', $nama);
-        $ekstensi = strtolower(end($x));
-        $ukuran    = $_FILES['gambarMobil']['size'];
-        $file_tmp = $_FILES['gambarMobil']['tmp_name'];
-
-        // Periksa apakah file gambar telah diunggah
-        if (in_array($ekstensi, $ekstensi_diperbolehkan) === true) {
-            if ($ukuran < 52428800) {
-                move_uploaded_file($file_tmp, 'file/' . $nama);
-                $query = mysqli_query($con, "INSERT INTO mobil VALUES('$nomor','$jenis','$harga', 'Tersedia', '$nama')");
-                if ($query) {
-                    $status = "Data berhasil diinput!";
-                    echo "<script>window.location.href = 'index.php';</script>";
-                    exit();
-                } else {
-                    $status =  "Data gagal diinput!";
-                }
-            } else {
-                $status = 'UKURAN FILE TERLALU BESAR';
-            }
-        } else {
-            echo 'EKSTENSI FILE YANG DI UPLOAD TIDAK DI PERBOLEHKAN';
-        }
-    }
-    ?>
-
-
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -69,7 +29,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">Tambah Data Mobil</h1>
+                            <h1 class="m-0">Edit Data Mobil</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
@@ -80,7 +40,13 @@
                 </div>
             </div>
 
-            <form action="formMobil.php" method="POST" enctype="multipart/form-data">
+            <?php 
+                include './connection/koneksi.php';
+                $nopol = $_GET['nopol'];
+                $data = mysqli_query($con,"SELECT * FROM mobil WHERE nopol='$nopol'");
+                while ($arr = mysqli_fetch_array($data)) {
+            ?>
+            <form action="editMobil.php" method="POST" enctype="multipart/form-data">
                 <?php if (!empty($status)) { ?>
                     <div class="alert alert-<?php echo ($input) ? 'success' : 'danger'; ?>" role="alert">
                         <?php echo $status; ?>
@@ -89,19 +55,20 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="nopol">Nomor Polisi</label>
-                        <input type="text" class="form-control" name="nopol" placeholder="Plat Nomor Kendaraan">
+                        <input type="text" class="form-control" name="nopol" value="<?php echo $arr['nopol'];?>" readonly>
                     </div>
                     <div class="form-group">
                         <label for="jenisMobil">Jenis Mobil</label>
-                        <input type="text" class="form-control" name="jenisMobil" placeholder="Jenis dan Type Mobil">
+                        <input type="text" class="form-control" name="jenisMobil" value="<?php echo $arr['jenis']; ?>" readonly>
                     </div>
                     <div class="form-group">
                         <label for="hargaMobil">Harga</label>
-                        <input type="text" class="form-control" name="hargaMobil" placeholder="Harga Sewa Mobil">
+                        <input type="text" class="form-control" name="hargaMobil" placeholder="<?php echo $arr['biaya']; ?>">
                     </div>
                     <div class="form-group">
                         <label for="gambarMobil">Gambar Mobil</label>
-                        <div class="input-group">
+                        <br> <img src="<?php echo "file/".$arr['foto'];?>" alt="Foto Mobil" width='160' height='90'> <br> <br>
+                        <div class="input-group">        
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input" name="gambarMobil" id="gambarMobil" onchange="updateLabel(this)">
                                 <label class="custom-file-label" id="gambarMobilLabel">Choose file</label>
@@ -116,6 +83,7 @@
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
+            <?php } ?>
             </form>
         </div>
     </div>

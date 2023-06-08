@@ -7,8 +7,8 @@
 <body>
 	<h1 align="center">Form Edit Pelanggan</h1>
 	<?php include 'koneksi.php';
-$kode = $_GET['kode'];
-$data = mysqli_query($con,"SELECT * FROM pelanggan WHERE kode='$kode'");
+$kode = $_GET['nopol'];
+$data = mysqli_query($con,"SELECT * FROM mobil WHERE nopol='$kode'");
 while ($arr = mysqli_fetch_array($data)) {
 
 	 ?>

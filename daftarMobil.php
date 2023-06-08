@@ -32,11 +32,11 @@ include './connection/koneksi.php';
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1 class="m-0">Pelanggan</h1>
+              <h1 class="m-0">Mobil</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Pelanggan</a></li>
+                <li class="breadcrumb-item"><a href="#">Mobil</a></li>
               </ol>
             </div><!-- /.col -->
           </div><!-- /.row -->
@@ -73,70 +73,20 @@ include './connection/koneksi.php';
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>183</td>
-              <td>John Doe</td>
-              <td>11-7-2014</td>
-              <td><span class="tag tag-success">Approved</span></td>
-              <td>Bacon ipsum dolor sit</td>
-              <th><button type="button" class="btn btn-warning">Edit</button> <button type="button" class="btn btn-danger">Delete</button></th>
-            </tr>
-            <tr>
-              <td>219</td>
-              <td>Alexander Pierce</td>
-              <td>11-7-2014</td>
-              <td><span class="tag tag-warning">Pending</span></td>
-              <td>Bacon ipsum dolor sit</td>
-              <th><button>Edit</button></th>
-            </tr>
-            <tr>
-              <td>657</td>
-              <td>Bob Doe</td>
-              <td>11-7-2014</td>
-              <td><span class="tag tag-primary">Approved</span></td>
-              <td>Bacon ipsum dolor sit</td>
-              <th><button>Edit</button></th>
-            </tr>
-            <tr>
-              <td>175</td>
-              <td>Mike Doe</td>
-              <td>11-7-2014</td>
-              <td><span class="tag tag-danger">Denied</span></td>
-              <td>Bacon ipsum dolor sit</td>
-              <th><button>Edit</button></th>
-            </tr>
-            <tr>
-              <td>134</td>
-              <td>Jim Doe</td>
-              <td>11-7-2014</td>
-              <td><span class="tag tag-success">Approved</span></td>
-              <td>Bacon ipsum dolor sit</td>
-              <th><button>Edit</button></th>
-            </tr>
-            <tr>
-              <td>494</td>
-              <td>Victoria Doe</td>
-              <td>11-7-2014</td>
-              <td><span class="tag tag-warning">Pending</span></td>
-              <td>Bacon ipsum dolor sit</td>
-              <th><button>Edit</button></th>
-            </tr>
-            <tr>
-              <td>832</td>
-              <td>Michael Doe</td>
-              <td>11-7-2014</td>
-              <td><span class="tag tag-primary">Approved</span></td>
-              <td>Bacon ipsum dolor sit</td>
-              <th><button>Edit</button></th>
-            </tr>
-            <tr>
-              <td>982</td>
-              <td>Rocky Doe</td>
-              <td>11-7-2014</td>
-              <td><span class="tag tag-danger">Denied</span></td>
-              <td>Bacon ipsum dolor sit</td>
-              <th><button>Edit</button></th>
-            </tr>
+            <?php
+            $data = mysqli_query($con, "SELECT * FROM mobil");
+            while ($arr = mysqli_fetch_array($data)) {
+            ?>
+              <tr>
+                <td><?php echo $arr['nopol']; ?></td>
+                <td><?php echo $arr['jenis']; ?></td>
+                <td><?php echo $arr['biaya']; ?></td>
+                <td align="center"><img src="<?php echo "file/".$arr['foto'];?>" alt="Foto Mobil" width='160' height='90'></td>
+                <td><?php echo $arr['status']; ?></td>
+                <td> 
+                <a href="formEditMobil.php?nopol=<?php echo $arr['nopol'] ?>"><button type="button" class="btn btn-warning">Edit</button></a></td>
+              </tr>
+            <?php } ?>
           </tbody>
         </table>
       </div>
