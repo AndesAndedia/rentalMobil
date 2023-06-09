@@ -1,2 +1,2 @@
-<?php $con = mysqli_connect("localhost","root","","rental");
+<?php $con = mysqli_connect("localhost","root","","rentalgab");
 ?>

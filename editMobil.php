@@ -7,6 +7,7 @@
         $nomor = $_POST['nopol'];
         $jenis = $_POST['jenisMobil'];
         $harga = $_POST['hargaMobil'];
+        $merk = $_POST['merkMobil'];
         $gambarMobil = $_FILES['gambarMobil']['name'];
 
         if($gambarMobil != "") {
@@ -21,7 +22,7 @@
         if (in_array($ekstensi, $ekstensi_diperbolehkan) === true) {
             if ($ukuran < 52428800) {
                 move_uploaded_file($file_tmp, 'file/' . $nama);
-                $query = mysqli_query($con, "UPDATE mobil SET biaya = '$harga', foto = '$nama' where nopol = '$nomor'");
+                $query = mysqli_query($con, "UPDATE mobil SET biaya = '$harga', foto = '$nama', merk = '$merk' where nopol = '$nomor'");
                 if ($query) {
                     $status = "Data berhasil diinput!";
                     echo "<script>window.location.href = 'daftarMobil.php';</script>";
@@ -44,7 +45,4 @@
                 $status =  "Data gagal diinput!";
             }
         }
-
-
-
     }

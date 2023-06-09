@@ -51,7 +51,7 @@ require 'head.php'; ?>
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
           <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-            <i class="bi bi-arrows-fullscreen"></i>
+            <i class="fas fa-expand-arrows-alt"></i>
           </a>
         </li>
       </ul>
@@ -92,7 +92,7 @@ require 'head.php'; ?>
             </li>
 
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="daftarPelanggan.php" class="nav-link">
                 <i class="nav-icon fas bi-people-fill"></i>
                 <p>
                   Pelanggan
