@@ -213,7 +213,7 @@ require 'head.php'; ?>
 
                     <div class="form-group">
                         <label for="sim">SIM</label>
-                        <input type="text" class="form-control" name="sim" placeholder="Harga Sewa Mobil">
+                        <input type="text" class="form-control" name="sim" placeholder="Nomor SIM Pelanggan">
                     </div>
                     <div class="form-group">
                         <label for="no_telp">Nomor Telepon</label>
