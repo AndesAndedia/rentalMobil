@@ -25,8 +25,12 @@ require 'head.php'; ?>
   <script src="style/AdminLTE/js/adminlte.min.js"></script>
 
   <!-- Script untuk nama file -->
-  <script src="/Script/custom-file.js"></script>
-
+  <script src="/script/custom-file.js"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -150,85 +154,148 @@ require 'head.php'; ?>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-      <!-- Content Header (Page header) -->
       <div class="content-header">
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1 class="m-0">Pelanggan</h1>
-            </div><!-- /.col -->
+              <h1 class="m-0">Edit Data Transaksi</h1>
+            </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Pelanggan</a></li>
+                <li class="breadcrumb-item"><a href="#">Transaksi</a></li>
               </ol>
-            </div><!-- /.col -->
-          </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-      </div>
-      <!-- /.content-header -->
-
-      <!-- Main content -->
-      <div class="card-header">
-        <a href="formPelanggan.php"><button type="button" class="btn btn-primary">Tambah</button></a>
-        <div class="card-tools">
-          <div class="input-group input-group-sm" style="width: 150px;">
-            <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-            <div class="input-group-append">
-              <button type="submit" class="btn btn-default">
-                <i class="fas fa-search"></i>
-              </button>
             </div>
           </div>
         </div>
       </div>
-      <!-- /.card-header -->
-      <div class="card-body table-responsive p-0" style="height: 500px;">
-        <table class="table table-head-fixed text-nowrap">
-          <thead>
-            <tr>
-              <th>NIK</th>
-              <th>Nama</th>
-              <th>Jenis Kelamin</th>
-              <th>SIM</th>
-              <th>No Telp</th>
-              <th>Alamat</th>
-              <th>Edit</th>
-            </tr>
-          </thead>
-          <tbody>
+
+
+      <?php
+      include './connection/koneksi.php';
+      $id = $_GET['id'];
+      $data = mysqli_query($con, "SELECT * FROM rental WHERE id ='$id'");
+      while ($arr = mysqli_fetch_array($data)) {
+      ?>
+        <form action="editRental.php" method="POST" enctype="multipart/form-data">
+          <?php if (!empty($status)) { ?>
+            <div class="alert alert-<?php echo ($input) ? 'success' : 'danger'; ?>" role="alert">
+              <?php echo $status; ?>
+            </div>
+          <?php } ?>
+          <div class="card-body">
+
             <?php
-            $data = mysqli_query($con, "SELECT * FROM pelanggan");
-            while ($arr = mysqli_fetch_array($data)) {
+            // Fungsi untuk mengambil data pelanggan
+            function getPelangganData($con)
+            {
+              $query = "SELECT nik FROM pelanggan";
+              $result = mysqli_query($con, $query);
+
+              $data = array();
+              while ($row = mysqli_fetch_assoc($result)) {
+                $data[] = $row['nik'];
+              }
+
+              return $data;
+            }
+
+            // Mengambil data pelanggan
+            $pelangganData = getPelangganData($con);
             ?>
-              <tr>
-                <td><?php echo $arr['nik']; ?></td>
-                <td><?php echo $arr['nama']; ?></td>
-                <td><?php echo $arr['jk']; ?></td>
-                <td><?php echo $arr['sim']; ?></td>
-                <td><?php echo $arr['no_telp']; ?></td>
-                <td><?php echo $arr['alamat']; ?></td>
-                <td>
-                  <a href="formEditPelanggan.php?nik=<?php echo $arr['nik'] ?>"><button type="button" class="btn btn-warning">Edit</button></a>
-                  <a href="hapusPelanggan.php?nik=<?php echo $arr['nik'] ?>"><button type="button" class="btn btn-danger">Hapus</button></a>
-                </td>
-              </tr>
-            <?php } ?>
-          </tbody>
-        </table>
-      </div>
-      <!-- /.card-body -->
+
+            <div class="form-group">
+              <label for="nik">NIK</label>
+              <input type="text" class="form-control" name="nik" id="nik" autocomplete="off" value="<?php echo $arr['nik']; ?>">
+            </div>
+
+            <script>
+              $(function() {
+                var pelangganData = <?php echo json_encode($pelangganData); ?>;
+
+                $("#nik").autocomplete({
+                  source: pelangganData
+                });
+              });
+            </script>
+
+            <script>
+              $(document).ready(function() {
+                $('.datepicker').datepicker({
+                  format: 'yyyy-mm-dd',
+                  autoclose: true
+                });
+              });
+            </script>
+
+            <div class="form-group">
+              <label for="tanggal">Select Date:</label>
+              <input type="text" class="form-control datepicker" name="tanggal" id="datepicker" placeholder="Select date" value="<?php echo $arr['tanggal']; ?>" readonly>
+            </div>
+
+
+            <?php
+
+            // Fungsi untuk mengambil data nomor polisi
+            function getMobilData($con)
+            {
+              $query = "SELECT nopol FROM mobil";
+              $result = mysqli_query($con, $query);
+
+              $data = array();
+              while ($row = mysqli_fetch_assoc($result)) {
+                $data[] = $row['nopol'];
+              }
+
+              return $data;
+            }
+
+            // Mengambil data pelanggan
+            $mobilData = getMobilData($con);
+            ?>
+            <div class="form-group">
+              <label for="nopol">Nomor Polisi</label>
+              <input type="text" class="form-control" name="nopol" id="nopol" autocomplete="off" value="<?php echo $arr['nopol']; ?>">
+            </div>
+            <script>
+              $(function() {
+                var mobilData = <?php echo json_encode($mobilData); ?>;
+
+                $("#nopol").autocomplete({
+                  source: mobilData
+                });
+              });
+            </script>
+
+
+            <div class="form-group">
+              <label for="lama">Durasi</label>
+              <input type="text" class="form-control" name="lama" value="<?php echo $arr['lama']; ?>">
+            </div>
+            <div class="form-group">
+              <label for="kondisi">Status</label> <br>
+              <input type="radio" name="kondisi" value="0"> &nbsp <label for="">Dipinjam</label> &nbsp
+              <input type="radio" name="kondisi" value="1"> &nbsp <label for="">Selesai</label>
+            </div>
+          </div>
+          <input type="text" name="id" value="<?php echo $id ?>" />
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        <?php } ?>
+        </form>
     </div>
-    <!-- /.card -->
-  </div>
-  </div>
-  <!-- /.content -->
+    <!-- /.content-wrapper -->
   </div>
   <!-- ./wrapper -->
 
   <!-- REQUIRED SCRIPTS -->
-
-  <!-- AdminLTE App -->
+  <script>
+    function updateLabel(input) {
+      var fileName = input.files[0].name;
+      var label = document.getElementById("gambarMobilLabel");
+      label.innerHTML = fileName;
+    }
+  </script>
 
 </body>
 

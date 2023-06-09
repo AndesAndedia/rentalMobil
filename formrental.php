@@ -46,7 +46,7 @@ require 'head.php'; ?>
 
 		function getBiayaRental($con, $nopol)
 		{
-			$query3 = "SELECT biaya FROM mobil WHERE plat_nomor = '$nopol'";
+			$query3 = "SELECT biaya FROM mobil WHERE nopol = '$nopol'";
 			$result = mysqli_query($con, $query3);
 
 			if ($result && mysqli_num_rows($result) > 0) {
@@ -58,12 +58,16 @@ require 'head.php'; ?>
 
 		$totalBiaya = getBiayaRental($con, $nopol) * $durasi;
 
-		$query = mysqli_query($con, "INSERT INTO rental (nik, tanggal, nopol, status, lama, total) VALUES ('$nik', '$tanggal', '$nopol', 0, '$durasi', '$totalBiaya')");
-		$query2 = mysqli_query($con, "UPDATE mobil set status = 2 where nopol = '$nopol' ");
-		if ($query || $query2) {
-			$status = "Data berhasil diinput!";
-			echo "<script>window.location.href = 'formRental.php';</script>";
-			exit();
+		if ($totalBiaya) {
+			$query = mysqli_query($con, "INSERT INTO rental (nik, tanggal, nopol, status, lama, total) VALUES ('$nik', '$tanggal', '$nopol', 0, '$durasi', '$totalBiaya')");
+			$query2 = mysqli_query($con, "UPDATE mobil set status = 2 where nopol = '$nopol' ");
+			if ($query || $query2) {
+				$status = "Data berhasil diinput!";
+				echo "<script>window.location.href = 'formRental.php';</script>";
+				exit();
+			} else {
+				$status =  "Data gagal diinput!";
+			}
 		} else {
 			$status =  "Data gagal diinput!";
 		}
@@ -162,7 +166,7 @@ require 'head.php'; ?>
 						</li>
 
 						<li class="nav-item">
-							<a href="#" class="nav-link">
+							<a href="daftarTransaksi.php" class="nav-link">
 								<i class="nav-icon fas bi-arrow-left-right"></i>
 								<p>
 									Transaksi
@@ -171,7 +175,7 @@ require 'head.php'; ?>
 						</li>
 
 						<li class="nav-item">
-							<a href="#" class="nav-link">
+							<a href="selesaiRental.php" class="nav-link">
 								<i class="nav-icon fas bi-card-checklist"></i>
 								<p>
 									Selesai Rental
@@ -217,7 +221,6 @@ require 'head.php'; ?>
 				<div class="card-body">
 
 					<?php
-
 					// Fungsi untuk mengambil data pelanggan
 					function getPelangganData($con)
 					{

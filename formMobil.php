@@ -149,7 +149,7 @@ require 'head.php'; ?>
             </li>
 
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="formRental.php" class="nav-link">
                 <i class="nav-icon fas bi bi-cart"></i>
                 <p>
                   Daftar Rental
@@ -158,7 +158,7 @@ require 'head.php'; ?>
             </li>
 
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="selesaiRental.php" class="nav-link">
                 <i class="nav-icon fas bi-arrow-left-right"></i>
                 <p>
                   Transaksi

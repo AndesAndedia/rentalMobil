@@ -119,7 +119,7 @@ require 'head.php'; ?>
                         </li>
 
                         <li class="nav-item">
-                            <a href="daftarTransaksi.php" class="nav-link active">
+                            <a href="daftarTransaksi.php" class="nav-link">
                                 <i class="nav-icon fas bi-arrow-left-right"></i>
                                 <p>
                                     Transaksi
@@ -128,7 +128,7 @@ require 'head.php'; ?>
                         </li>
 
                         <li class="nav-item">
-                            <a href="selesaiRental.php" class="nav-link">
+                            <a href="selesaiRental.php" class="nav-link active">
                                 <i class="nav-icon fas bi-card-checklist"></i>
                                 <p>
                                     Selesai Rental
@@ -169,7 +169,6 @@ require 'head.php'; ?>
 
             <!-- Main content -->
             <div class="card-header">
-                <a href="formRental.php"><button type="button" class="btn btn-primary">Tambah</button></a>
                 <div class="card-tools">
                     <div class="input-group input-group-sm" style="width: 150px;">
                         <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
@@ -202,7 +201,7 @@ require 'head.php'; ?>
 
                         <?php
                         $data = mysqli_query($con, "SELECT rental.*, pelanggan.nama FROM rental
-                        INNER JOIN pelanggan ON rental.nik = pelanggan.nik where status ='0'");
+                        INNER JOIN pelanggan ON rental.nik = pelanggan.nik where status ='1'");
                         while ($arr = mysqli_fetch_array($data)) {
                         ?>
                             <tr>
@@ -222,7 +221,6 @@ require 'head.php'; ?>
                                 <td><?php echo $arr['lama']; ?></td>
                                 <td><?php echo $arr['total']; ?></td>
                                 <td>
-                                    <a href="formEditTransaksi.php?id=<?php echo $arr['id'] ?>"><button type="button" class="btn btn-warning">Edit</button></a>
                                     <a href="hapusTransaksi.php?id=<?php echo $arr['id'] ?>"><button type="button" class="btn btn-danger">Hapus</button></a>
                                 </td>
                             </tr>
