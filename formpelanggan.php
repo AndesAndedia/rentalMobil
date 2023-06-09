@@ -33,37 +33,22 @@ require 'head.php'; ?>
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $status = "";
 
-        $nomor = $_POST['nopol'];
-        $jenis = $_POST['jenisMobil'];
-        $harga = $_POST['hargaMobil'];
-        $merk = $_POST['merkMobil'];
+        $nik = $_POST['nik'];
+        $nama = $_POST['nama'];
+        $jk = $_POST['jk'];
+        $sim = $_POST['sim'];
+		$no = $_POST['no_telp'];
+		$alamat = $_POST['alamat'];
 
-        $ekstensi_diperbolehkan    = array('png', 'jpg');
-        $nama = $_FILES['gambarMobil']['name'];
-        $x = explode('.', $nama);
-        $ekstensi = strtolower(end($x));
-        $ukuran    = $_FILES['gambarMobil']['size'];
-        $file_tmp = $_FILES['gambarMobil']['tmp_name'];
-
-        // Periksa apakah file gambar telah diunggah
-        if (in_array($ekstensi, $ekstensi_diperbolehkan) === true) {
-            if ($ukuran < 52428800) {
-                move_uploaded_file($file_tmp, 'file/' . $nama);
-                $query = mysqli_query($con, "INSERT INTO mobil VALUES('$nomor','$jenis','$harga', '$merk', '1', '$nama')");
-                if ($query) {
-                    $status = "Data berhasil diinput!";
-                    echo "<script>window.location.href = 'daftarMobil.php';</script>";
-                    exit();
-                } else {
-                    $status =  "Data gagal diinput!";
-                }
-            } else {
-                $status = 'UKURAN FILE TERLALU BESAR';
-            }
-        } else {
-            echo 'EKSTENSI FILE YANG DI UPLOAD TIDAK DI PERBOLEHKAN';
-        }
-    }
+		$query = mysqli_query($con, "INSERT INTO pelanggan VALUES('$nik','$nama','$jk', '$sim', '$no', '$alamat')");
+		if ($query) {
+			$status = "Data berhasil diinput!";
+			echo "<script>window.location.href = 'daftarPelanggan.php';</script>";
+			exit();
+		} else {
+			$status =  "Data gagal diinput!";
+		}
+	}
     ?>
 
 </head>
@@ -131,7 +116,7 @@ require 'head.php'; ?>
             </li>
 
             <li class="nav-item">
-              <a href="daftarPelanggan.php" class="nav-link">
+              <a href="daftarPelanggan.php" class="nav-link active">
                 <i class="nav-icon fas bi-people-fill"></i>
                 <p>
                   Pelanggan
@@ -140,7 +125,7 @@ require 'head.php'; ?>
             </li>
 
             <li class="nav-item">
-              <a href="daftarMobil.php" class="nav-link active">
+              <a href="daftarMobil.php" class="nav-link">
                 <i class="nav-icon fas bi-car-front-fill"></i>
                 <p>
                   Mobil
@@ -193,18 +178,18 @@ require 'head.php'; ?>
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">Tambah Data Mobil</h1>
+                            <h1 class="m-0">Tambah Data Pelanggan</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Mobil</a></li>
+                                <li class="breadcrumb-item"><a href="#">Pelanggan</a></li>
                             </ol>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <form action="formMobil.php" method="POST" enctype="multipart/form-data">
+            <form action="formPelanggan.php" method="POST" enctype="multipart/form-data">
                 <?php if (!empty($status)) { ?>
                     <div class="alert alert-<?php echo ($input) ? 'success' : 'danger'; ?>" role="alert">
                         <?php echo $status; ?>
@@ -212,32 +197,31 @@ require 'head.php'; ?>
                 <?php } ?>
                 <div class="card-body">
                     <div class="form-group">
-                        <label for="nopol">Nomor Polisi</label>
-                        <input type="text" class="form-control" name="nopol" placeholder="Plat Nomor Kendaraan">
+                        <label for="nik">NIK</label>
+                        <input type="text" class="form-control" name="nik" placeholder="NIK Pelanggan">
                     </div>
                     <div class="form-group">
-                        <label for="jenisMobil">Jenis Mobil</label>
-                        <input type="text" class="form-control" name="jenisMobil" placeholder="Jenis dan Type Mobil">
+                        <label for="nama">Nama</label>
+                        <input type="text" class="form-control" name="nama" placeholder="Nama Pelanggan">
+                    </div>
+
+					<div class="form-group">
+                        <label for="jk">Jenis Kelamin</label> <br>
+                        <input type="radio" name="jk" value="Laki-laki"> &nbsp <label for="">Laki-laki</label> &nbsp
+						<input type="radio" name="jk" value="Perempuan"> &nbsp <label for="">Perempuan</label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sim">SIM</label>
+                        <input type="text" class="form-control" name="sim" placeholder="Harga Sewa Mobil">
                     </div>
                     <div class="form-group">
-                        <label for="hargaMobil">Harga</label>
-                        <input type="text" class="form-control" name="hargaMobil" placeholder="Harga Sewa Mobil">
+                        <label for="no_telp">Nomor Telepon</label>
+                        <input type="text" class="form-control" name="no_telp" placeholder="Nomor Telepon">
                     </div>
-                    <div class="form-group">
-                        <label for="merkMobil">Merk</label>
-                        <input type="text" class="form-control" name="merkMobil" placeholder="Merk Mobil">
-                    </div>
-                    <div class="form-group">
-                        <label for="gambarMobil">Gambar Mobil</label>
-                        <div class="input-group">
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" name="gambarMobil" id="gambarMobil" onchange="updateLabel(this)">
-                                <label class="custom-file-label" id="gambarMobilLabel">Choose file</label>
-                            </div>
-                            <div class="input-group-append">
-                                <span class="input-group-text">Upload</span>
-                            </div>
-                        </div>
+					<div class="form-group">
+                        <label for="alamat">Alamat</label>
+                        <input type="text" class="form-control" name="alamat" placeholder="Alamat Pelanggan">
                     </div>
                 </div>
 

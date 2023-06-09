@@ -191,7 +191,6 @@ require 'head.php'; ?>
               <th>Nama</th>
               <th>Jenis Kelamin</th>
               <th>SIM</th>
-              <th>Username</th>
               <th>No Telp</th>
               <th>Alamat</th>
               <th>Edit</th>
@@ -207,12 +206,11 @@ require 'head.php'; ?>
                 <td><?php echo $arr['nama']; ?></td>
                 <td><?php echo $arr['jk']; ?></td>
                 <td><?php echo $arr['sim']; ?></td>
-                <td><?php echo $arr['username']; ?></td>
                 <td><?php echo $arr['no_telp']; ?></td>
                 <td><?php echo $arr['alamat']; ?></td>
                 <td>
-                  <a href="formEditPelanggan.php?nopol=<?php echo $arr['nik'] ?>"><button type="button" class="btn btn-warning">Edit</button></a>
-                  <a href="hapusPelanggan.php?nopol=<?php echo $arr['nik'] ?>"><button type="button" class="btn btn-danger">Hapus</button></a>
+                  <a href="formEditPelanggan.php?nik=<?php echo $arr['nik'] ?>"><button type="button" class="btn btn-warning">Edit</button></a>
+                  <a href="hapusPelanggan.php?nik=<?php echo $arr['nik'] ?>"><button type="button" class="btn btn-danger">Hapus</button></a>
                 </td>
               </tr>
             <?php } ?>
