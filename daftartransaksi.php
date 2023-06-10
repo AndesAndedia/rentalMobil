@@ -148,8 +148,35 @@ require 'head.php'; ?>
             <!-- /.sidebar -->
         </aside>
 
+        <!-- Mengambil Informasi Status -->
+        <?php
+        $status = isset($_GET['status']) ? $_GET['status'] : '';
+        $deleteStatus = isset($_GET['delete_status']) ? $_GET['delete_status'] : '';
+        $editStatus = isset($_GET['edit_status']) ? $_GET['edit_status'] : '';
+        ?>
+
+
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
+
+            <!-- Membuat Alert -->
+            <?php if (!empty($status)) { ?>
+                <div class="alert alert-success" role="alert">
+                    <?php echo $status; ?>
+                </div>
+            <?php } ?>
+            <?php if ($deleteStatus == "success") { ?>
+                <div class="alert alert-success" role="alert">
+                    <?php echo "Data Berhasil Dihapus"; ?>
+                </div>
+            <?php } ?>
+            <?php if ($editStatus == "success") { ?>
+                <div class="alert alert-success" role="alert">
+                    <?php echo "Data Berhasil Diedit"; ?>
+                </div>
+            <?php } ?>
+
+
             <!-- Content Header (Page header) -->
             <div class="content-header">
                 <div class="container-fluid">
@@ -223,9 +250,27 @@ require 'head.php'; ?>
                                 <td><?php echo $arr['total']; ?></td>
                                 <td>
                                     <a href="formEditTransaksi.php?id=<?php echo $arr['id'] ?>"><button type="button" class="btn btn-warning">Edit</button></a>
-                                    <a href="hapusTransaksi.php?id=<?php echo $arr['id'] ?>"><button type="button" class="btn btn-danger">Hapus</button></a>
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#hapusTransaksiModal-<?php echo $arr['id']; ?>">Hapus</button>
                                 </td>
                             </tr>
+                            <!-- Modal Konfirmasi Hapus -->
+                            <div class="modal fade" id="hapusTransaksiModal-<?php echo $arr['id']; ?>" tabindex="-1" aria-labelledby="hapusModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="hapusModalLabel">Konfirmasi Hapus</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Apakah Anda yakin ingin menghapus data ini?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                            <a href="hapusTransaksi.php?id=<?php echo $arr['id'] ?>"><button type="button" class="btn btn-danger">Hapus</button></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         <?php } ?>
                     </tbody>
                 </table>

@@ -33,6 +33,94 @@ require 'head.php'; ?>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
 </head>
 
+<?php
+include './connection/koneksi.php';
+
+$status = isset($_POST['status']) ? $_POST['status'] : '';
+
+// Fungsi untuk mengambil data pelanggan
+function getPelangganData($con)
+{
+  $query = "SELECT nik FROM pelanggan";
+  $result = mysqli_query($con, $query);
+
+  $data = array();
+  while ($row = mysqli_fetch_assoc($result)) {
+    $data[] = $row['nik'];
+  }
+
+  return $data;
+}
+
+// Fungsi untuk mengambil data nomor polisi
+function getMobilData($con)
+{
+  $query = "SELECT nopol FROM mobil";
+  $result = mysqli_query($con, $query);
+
+  $data = array();
+  while ($row = mysqli_fetch_assoc($result)) {
+    $data[] = $row['nopol'];
+  }
+
+  return $data;
+}
+
+$pelangganData = getPelangganData($con);
+$mobilData = getMobilData($con);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $status = "";
+
+  $id = $_POST['id'];
+  $nik = $_POST['nik'];
+  $tanggal = $_POST['tanggal'];
+  $nopol = $_POST['nopol'];
+  $durasi = $_POST['lama'];
+  $status_kondisi = $_POST['kondisi'];
+
+
+  function getBiayaRental($con, $nopol)
+  {
+    $query3 = "SELECT biaya FROM mobil WHERE nopol = '$nopol'";
+    $result = mysqli_query($con, $query3);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+      $data = mysqli_fetch_assoc($result);
+      $biayaRental = $data['biaya'];
+      return $biayaRental;
+    }
+  }
+
+  if (empty($nik) || empty($nopol) || empty($durasi) || empty($tanggal)) {
+    $status = "Semua field harus diisi!";
+  } elseif (!preg_match("/^[0-9]{16}$/", $nik)) {
+    $status = "NIK harus terdiri dari 16 digit angka!";
+  }
+
+  $totalBiaya = getBiayaRental($con, $nopol) * $durasi;
+
+
+  if ($totalBiaya) {
+    $query = mysqli_query($con, "UPDATE rental SET nik = '$nik', tanggal = '$tanggal', nopol = '$nopol', status = '$status_kondisi', lama = '$durasi', total = '$totalBiaya' WHERE id = '$id' ");
+    $query2 = mysqli_query($con, "UPDATE mobil SET status = 2 WHERE nopol = '$nopol' ");
+    if ($query && $query2) {
+      $status = "Data berhasil diupdate!";
+      header("Location: daftarTransaksi.php?edit_status=success");
+      exit();
+    } else {
+      $status =  "Data gagal diupdate!";
+      header("Location: formEditTransaksi.php?id=$id");
+      exit();
+    }
+  } else {
+    $status =  "Data gagal diupdate!";
+    header("Location: formEditTransaksi.php?id=$id");
+    exit();
+  }
+}
+?>
+
 <body class="hold-transition sidebar-mini">
   <div class="wrapper">
 
@@ -96,7 +184,7 @@ require 'head.php'; ?>
             </li>
 
             <li class="nav-item">
-              <a href="daftarPelanggan.php" class="nav-link active">
+              <a href="daftarPelanggan.php" class="nav-link">
                 <i class="nav-icon fas bi-people-fill"></i>
                 <p>
                   Pelanggan
@@ -123,7 +211,7 @@ require 'head.php'; ?>
             </li>
 
             <li class="nav-item">
-              <a href="daftarTransaksi.php" class="nav-link">
+              <a href="daftarTransaksi.php" class="nav-link active">
                 <i class="nav-icon fas bi-arrow-left-right"></i>
                 <p>
                   Transaksi
@@ -176,32 +264,13 @@ require 'head.php'; ?>
       $data = mysqli_query($con, "SELECT * FROM rental WHERE id ='$id'");
       while ($arr = mysqli_fetch_array($data)) {
       ?>
-        <form action="editRental.php" method="POST" enctype="multipart/form-data">
+        <form method="POST" enctype="multipart/form-data">
           <?php if (!empty($status)) { ?>
             <div class="alert alert-<?php echo ($input) ? 'success' : 'danger'; ?>" role="alert">
               <?php echo $status; ?>
             </div>
           <?php } ?>
           <div class="card-body">
-
-            <?php
-            // Fungsi untuk mengambil data pelanggan
-            function getPelangganData($con)
-            {
-              $query = "SELECT nik FROM pelanggan";
-              $result = mysqli_query($con, $query);
-
-              $data = array();
-              while ($row = mysqli_fetch_assoc($result)) {
-                $data[] = $row['nik'];
-              }
-
-              return $data;
-            }
-
-            // Mengambil data pelanggan
-            $pelangganData = getPelangganData($con);
-            ?>
 
             <div class="form-group">
               <label for="nik">NIK</label>
@@ -231,27 +300,6 @@ require 'head.php'; ?>
               <label for="tanggal">Select Date:</label>
               <input type="text" class="form-control datepicker" name="tanggal" id="datepicker" placeholder="Select date" value="<?php echo $arr['tanggal']; ?>" readonly>
             </div>
-
-
-            <?php
-
-            // Fungsi untuk mengambil data nomor polisi
-            function getMobilData($con)
-            {
-              $query = "SELECT nopol FROM mobil";
-              $result = mysqli_query($con, $query);
-
-              $data = array();
-              while ($row = mysqli_fetch_assoc($result)) {
-                $data[] = $row['nopol'];
-              }
-
-              return $data;
-            }
-
-            // Mengambil data pelanggan
-            $mobilData = getMobilData($con);
-            ?>
             <div class="form-group">
               <label for="nopol">Nomor Polisi</label>
               <input type="text" class="form-control" name="nopol" id="nopol" autocomplete="off" value="<?php echo $arr['nopol']; ?>">
@@ -273,13 +321,14 @@ require 'head.php'; ?>
             </div>
             <div class="form-group">
               <label for="kondisi">Status</label> <br>
-              <input type="radio" name="kondisi" value="0"> &nbsp <label for="">Dipinjam</label> &nbsp
-              <input type="radio" name="kondisi" value="1"> &nbsp <label for="">Selesai</label>
+              <input type="radio" name="kondisi" value="0" <?php if ($arr['status'] == '0') echo "checked"; ?>> <label for="">Dipinjam</label> &nbsp;
+              <input type="radio" name="kondisi" value="1" <?php if ($arr['status'] == '1') echo "checked"; ?>> <label for="">Selesai</label>
             </div>
+
           </div>
-          <input type="text" name="id" value="<?php echo $id ?>" />
+          <input type="hidden" name="id" value="<?php echo $id ?>" />
           <div class="card-footer">
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Update</button>
           </div>
         <?php } ?>
         </form>

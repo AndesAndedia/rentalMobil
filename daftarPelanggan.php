@@ -161,8 +161,8 @@ require 'head.php';
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
 
-      <!-- Membuat Alert -->
-      <?php if (!empty($status)) { ?>
+    <!-- Membuat Alert -->
+    <?php if (!empty($status)) { ?>
         <div class="alert alert-success" role="alert">
           <?php echo $status; ?>
         </div>
@@ -247,7 +247,7 @@ require 'head.php';
                   <div class="modal-content">
                     <div class="modal-header">
                       <h5 class="modal-title" id="hapusPelangganModalLabel-<?php echo $arr['nik']; ?>">Hapus Pelanggan</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
@@ -255,7 +255,7 @@ require 'head.php';
                       Apakah Anda yakin ingin menghapus data pelanggan <?php echo $arr['nama']; ?>?
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                       <a href="hapusPelanggan.php?nik=<?php echo $arr['nik'] ?>"><button type="button" class="btn btn-danger">Hapus</button></a>
                     </div>
                   </div>

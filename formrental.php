@@ -44,32 +44,39 @@ require 'head.php'; ?>
 		$nopol = $_POST['nopol'];
 		$durasi = $_POST['lama'];
 
-		function getBiayaRental($con, $nopol)
-		{
-			$query3 = "SELECT biaya FROM mobil WHERE nopol = '$nopol'";
-			$result = mysqli_query($con, $query3);
+		// Validasi
 
-			if ($result && mysqli_num_rows($result) > 0) {
-				$data = mysqli_fetch_assoc($result);
-				$biayaRental = $data['biaya'];
-				return $biayaRental;
-			}
+		if (empty($tanggal)) {
+			$errors[] = "Tanggal harus diisi";
 		}
 
-		$totalBiaya = getBiayaRental($con, $nopol) * $durasi;
+		if (empty($nik) || empty($nopol) || empty($durasi) || empty($tanggal)) {
+			$status = "Semua field harus diisi!";
+		} elseif (!preg_match("/^[0-9]{16}$/", $nik)) {
+			$status = "NIK harus terdiri dari 16 digit angka!";
+		} else {
+			function getBiayaRental($con, $nopol)
+			{
+				$query = mysqli_query($con, "SELECT biaya FROM mobil WHERE nopol = '$nopol'");
+				$result = mysqli_fetch_assoc($query);
 
-		if ($totalBiaya) {
-			$query = mysqli_query($con, "INSERT INTO rental (nik, tanggal, nopol, status, lama, total) VALUES ('$nik', '$tanggal', '$nopol', 0, '$durasi', '$totalBiaya')");
-			$query2 = mysqli_query($con, "UPDATE mobil set status = 2 where nopol = '$nopol' ");
-			if ($query || $query2) {
-				$status = "Data berhasil diinput!";
-				echo "<script>window.location.href = 'formRental.php';</script>";
-				exit();
+				return $result['biaya'];
+			}
+			$totalBiaya = getBiayaRental($con, $nopol) * $durasi;
+
+			if ($totalBiaya) {
+				$query = mysqli_query($con, "INSERT INTO rental (nik, tanggal, nopol, status, lama, total) VALUES ('$nik', '$tanggal', '$nopol', 0, '$durasi', '$totalBiaya')");
+				$query2 = mysqli_query($con, "UPDATE mobil set status = 2 where nopol = '$nopol' ");
+				if ($query || $query2) {
+					$status = "Data berhasil diinput!";
+					echo "<script>window.location.href = 'daftarTransaksi.php?status=" . urlencode($status) . "';</script>";
+					exit();
+				} else {
+					$status =  "Data gagal diinput!";
+				}
 			} else {
 				$status =  "Data gagal diinput!";
 			}
-		} else {
-			$status =  "Data gagal diinput!";
 		}
 	}
 	?>
@@ -197,6 +204,8 @@ require 'head.php'; ?>
 
 		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">
+
+
 			<div class="content-header">
 				<div class="container-fluid">
 					<div class="row mb-2">
@@ -213,11 +222,13 @@ require 'head.php'; ?>
 			</div>
 
 			<form action="formRental.php" method="POST" enctype="multipart/form-data">
-				<?php if (!empty($status)) { ?>
-					<div class="alert alert-<?php echo ($input) ? 'success' : 'danger'; ?>" role="alert">
-						<?php echo $status; ?>
-					</div>
-				<?php } ?>
+				<?php if ($_SERVER['REQUEST_METHOD'] === 'POST') { ?>
+					<?php if (!empty($status)) { ?>
+						<div class="alert alert-danger" role="alert">
+							<?php echo $status; ?>
+						</div>
+				<?php }
+				} ?>
 				<div class="card-body">
 
 					<?php
@@ -265,7 +276,7 @@ require 'head.php'; ?>
 
 					<div class="form-group">
 						<label for="tanggal">Select Date:</label>
-						<input type="text" class="form-control datepicker" name="tanggal" id="datepicker" placeholder="Select date" readonly>
+						<input type="text" class="form-control datepicker" name="tanggal" id="datepicker" placeholder="Select date" required readonly>
 					</div>
 
 
