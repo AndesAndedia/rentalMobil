@@ -148,8 +148,34 @@ require 'head.php'; ?>
       <!-- /.sidebar -->
     </aside>
 
+    <!-- Mengambil Informasi Status -->
+    <?php
+    $status = isset($_GET['status']) ? $_GET['status'] : '';
+    $deleteStatus = isset($_GET['delete_status']) ? $_GET['delete_status'] : '';
+    $editStatus = isset($_GET['edit_status']) ? $_GET['edit_status'] : '';
+    ?>
+
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
+
+
+      <!-- Membuat Alert -->
+      <?php if (!empty($status)) { ?>
+        <div class="alert alert-success" role="alert">
+          <?php echo $status; ?>
+        </div>
+      <?php } ?>
+      <?php if ($deleteStatus == "success") { ?>
+        <div class="alert alert-success" role="alert">
+          <?php echo "Data Berhasil Dihapus"; ?>
+        </div>
+      <?php } ?>
+      <?php if ($editStatus == "success") { ?>
+        <div class="alert alert-success" role="alert">
+          <?php echo "Data Berhasil Diedit"; ?>
+        </div>
+      <?php } ?>
+
       <!-- Content Header (Page header) -->
       <div class="content-header">
         <div class="container-fluid">
@@ -167,6 +193,7 @@ require 'head.php'; ?>
       </div>
       <!-- /.content-header -->
 
+
       <!-- Main content -->
       <div class="card-header">
         <a href="formMobil.php"><button type="button" class="btn btn-primary">Tambah</button></a>
@@ -183,6 +210,10 @@ require 'head.php'; ?>
         </div>
       </div>
       <!-- /.card-header -->
+
+
+
+
       <div class="card-body table-responsive p-0" style="height: 500px;">
         <table class="table table-head-fixed text-nowrap">
           <thead>
@@ -217,12 +248,31 @@ require 'head.php'; ?>
                 </td>
                 <td>
                   <a href="formEditMobil.php?nopol=<?php echo $arr['nopol'] ?>"><button type="button" class="btn btn-warning">Edit</button></a>
-                  <a href="hapusMobil.php?nopol=<?php echo $arr['nopol'] ?>"><button type="button" class="btn btn-danger">Hapus</button></a>
+                  <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#hapusModal<?php echo $arr['nopol']; ?>">Hapus</button>
+                  <!-- Modal Hapus -->
+                  <div class="modal fade" id="hapusModal<?php echo $arr['nopol']; ?>" tabindex="-1" aria-labelledby="hapusModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="hapusModalLabel">Konfirmasi Hapus</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          Apakah Anda yakin ingin menghapus data ini?
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                          <a href="hapusMobil.php?nopol=<?php echo $arr['nopol']; ?>" class="btn btn-danger">Hapus</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </td>
               </tr>
             <?php } ?>
           </tbody>
         </table>
+
       </div>
       <!-- /.card-body -->
     </div>

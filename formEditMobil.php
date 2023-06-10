@@ -29,6 +29,72 @@ require 'head.php'; ?>
 
 </head>
 
+<?php
+include './connection/koneksi.php';
+
+$status = isset($_POST['status']) ? $_POST['status'] : '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $status = "";
+
+  $nomor = $_POST['nopol'];
+  $jenis = $_POST['jenisMobil'];
+  $harga = $_POST['hargaMobil'];
+  $merk = $_POST['merkMobil'];
+  $gambarMobil = $_FILES['gambarMobil']['name'];
+
+  // Validasi input
+  if (empty($nomor) || empty($jenis) || empty($harga) || empty($merk)) {
+    $status = "Semua field harus diisi.";
+  } else if (!is_numeric($harga)) {
+    $status = "Harga Mobil harus berupa angka!";
+  } else {
+    if ($gambarMobil != "") {
+      $ekstensi_diperbolehkan = array('png', 'jpg');
+      $nama = $_FILES['gambarMobil']['name'];
+      $x = explode('.', $nama);
+      $ekstensi = strtolower(end($x));
+      $ukuran = $_FILES['gambarMobil']['size'];
+      $file_tmp = $_FILES['gambarMobil']['tmp_name'];
+
+      // Periksa apakah file gambar telah diunggah
+      if (in_array($ekstensi, $ekstensi_diperbolehkan) === true) {
+        if ($ukuran < 52428800) {
+          move_uploaded_file($file_tmp, 'file/' . $nama);
+          $query = mysqli_query($con, "UPDATE mobil SET biaya = '$harga', jenis = '$jenis', foto = '$nama', merk = '$merk' where nopol = '$nomor'");
+          if ($query) {
+            $status = "Data berhasil diupdate!";
+            header("Location: daftarMobil.php?edit_status=success");
+            exit();
+          } else {
+            $status =  "Data gagal diupdate!";
+          }
+        } else {
+          $status = 'Ukuran file terlalu besar.';
+        }
+      } else {
+        $status = 'Ekstensi file yang diupload tidak diizinkan.';
+      }
+    } else {
+      $query = mysqli_query($con, "UPDATE mobil SET biaya = '$harga', merk = '$merk', jenis = '$jenis' WHERE nopol = '$nomor'");
+      if ($query) {
+        $status = "Data berhasil diupdate!";
+        header("Location: daftarMobil.php?edit_status=success");
+        exit();
+      } else {
+        $status =  "Data gagal diupdate!";
+      }
+    }
+  }
+}
+
+// Ambil data mobil dari database
+$nomor = isset($_GET['nopol']) ? $_GET['nopol'] : '';
+$query = mysqli_query($con, "SELECT * FROM mobil WHERE nopol = '$nomor'");
+$data = mysqli_fetch_array($query);
+
+?>
+
 <body class="hold-transition sidebar-mini">
   <div class="wrapper">
 
@@ -148,85 +214,78 @@ require 'head.php'; ?>
       <!-- /.sidebar -->
     </aside>
 
+
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-            <div class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1 class="m-0">Edit Data Mobil</h1>
-                        </div>
-                        <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Mobil</a></li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
+      <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0">Edit Data Mobil</h1>
             </div>
-
-            <?php 
-                include './connection/koneksi.php';
-                $nopol = $_GET['nopol'];
-                $data = mysqli_query($con,"SELECT * FROM mobil WHERE nopol='$nopol'");
-                while ($arr = mysqli_fetch_array($data)) {
-            ?>
-            <form action="editMobil.php" method="POST" enctype="multipart/form-data">
-                <?php if (!empty($status)) { ?>
-                    <div class="alert alert-<?php echo ($input) ? 'success' : 'danger'; ?>" role="alert">
-                        <?php echo $status; ?>
-                    </div>
-                <?php } ?>
-                <div class="card-body">
-                    <div class="form-group">
-                        <label for="nopol">Nomor Polisi</label>
-                        <input type="text" class="form-control" name="nopol" value="<?php echo $arr['nopol'];?>">
-                    </div>
-                    <div class="form-group">
-                        <label for="jenisMobil">Jenis Mobil</label>
-                        <input type="text" class="form-control" name="jenisMobil" value="<?php echo $arr['jenis']; ?>">
-                    </div>
-                    <div class="form-group">
-                        <label for="hargaMobil">Harga</label>
-                        <input type="text" class="form-control" name="hargaMobil" value="<?php echo $arr['biaya']; ?>">
-                    </div>
-                    <div class="form-group">
-                        <label for="merkMobil">Merk</label>
-                        <input type="text" class="form-control" name="merkMobil" value="<?php echo $arr['merk']; ?>">
-                    </div>
-                    <div class="form-group">
-                        <label for="gambarMobil">Gambar Mobil</label>
-                        <br> <img src="<?php echo "file/".$arr['foto'];?>" alt="Foto Mobil" width='160' height='90'> <br> <br>
-                        <div class="input-group">        
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" name="gambarMobil" id="gambarMobil" onchange="updateLabel(this)">
-                                <label class="custom-file-label" id="gambarMobilLabel">Choose file</label>
-                            </div>
-                            <div class="input-group-append">
-                                <span class="input-group-text">Upload</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
-            <?php } ?>
-            </form>
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="#">Mobil</a></li>
+              </ol>
+            </div>
+          </div>
         </div>
+      </div>
+
+      <?php
+      if (!empty($status)) { ?>
+        <div class="alert alert-danger" role="alert">
+          <?php echo $status; ?>
+        </div>
+      <?php } ?>
+
+      <form method="POST" enctype="multipart/form-data">
+        <div class="card-body">
+          <div class="form-group">
+            <label for="nopol">Nomor Polisi:</label>
+            <input type="text" class="form-control" name="nopol" value="<?php echo $data['nopol']; ?>" readonly>
+          </div>
+          <div class="form-group">
+            <label for="jenisMobil">Jenis Mobil:</label>
+            <input type="text" class="form-control" name="jenisMobil" value="<?php echo $data['jenis']; ?>">
+          </div>
+          <div class="form-group">
+            <label for="hargaMobil">Harga Mobil:</label>
+            <input type="text" class="form-control" name="hargaMobil" value="<?php echo $data['biaya']; ?>">
+          </div>
+          <div class="form-group">
+            <label for="merkMobil">Merk Mobil:</label>
+            <input type="text" class="form-control" name="merkMobil" value="<?php echo $data['merk']; ?>">
+          </div>
+          <div class="form-group">
+            <label for="gambarMobil">Gambar Mobil</label>
+            <br> <img src="<?php echo "file/" . $data['foto']; ?>" alt="Foto Mobil" width='160' height='90'> <br> <br>
+            <div class="input-group">
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" name="gambarMobil" id="gambarMobil" onchange="updateLabel(this)">
+                <label class="custom-file-label" id="gambarMobilLabel">Choose file</label>
+              </div>
+              <div class="input-group-append">
+                <span class="input-group-text">Upload</span>
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Update</button>
+      </form>
+
+    </div>
     <!-- /.content-wrapper -->
   </div>
   <!-- ./wrapper -->
 
   <!-- REQUIRED SCRIPTS -->
   <script>
-        function updateLabel(input) {
-            var fileName = input.files[0].name;
-            var label = document.getElementById("gambarMobilLabel");
-            label.innerHTML = fileName;
-        }
-    </script>
+    function updateLabel(input) {
+      var fileName = input.files[0].name;
+      var label = document.getElementById("gambarMobilLabel");
+      label.innerHTML = fileName;
+    }
+  </script>
 
 </body>
 

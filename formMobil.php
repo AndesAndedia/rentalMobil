@@ -28,44 +28,73 @@ require 'head.php'; ?>
   <script src="/Script/custom-file.js"></script>
 
   <?php
-    include './connection/koneksi.php';
+  // ...
+  if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $status = "";
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $status = "";
-
-        $nomor = $_POST['nopol'];
-        $jenis = $_POST['jenisMobil'];
-        $harga = $_POST['hargaMobil'];
-        $merk = $_POST['merkMobil'];
-
-        $ekstensi_diperbolehkan    = array('png', 'jpg');
-        $nama = $_FILES['gambarMobil']['name'];
-        $x = explode('.', $nama);
-        $ekstensi = strtolower(end($x));
-        $ukuran    = $_FILES['gambarMobil']['size'];
-        $file_tmp = $_FILES['gambarMobil']['tmp_name'];
-
-        // Periksa apakah file gambar telah diunggah
-        if (in_array($ekstensi, $ekstensi_diperbolehkan) === true) {
-            if ($ukuran < 52428800) {
-                move_uploaded_file($file_tmp, 'file/' . $nama);
-                $query = mysqli_query($con, "INSERT INTO mobil VALUES('$nomor','$jenis','$harga', '$merk', '1', '$nama')");
-                if ($query) {
-                    $status = "Data berhasil diinput!";
-                    echo "<script>window.location.href = 'daftarMobil.php';</script>";
-                    exit();
-                } else {
-                    $status =  "Data gagal diinput!";
-                }
-            } else {
-                $status = 'UKURAN FILE TERLALU BESAR';
-            }
-        } else {
-            echo 'EKSTENSI FILE YANG DI UPLOAD TIDAK DI PERBOLEHKAN';
-        }
+    // Validasi nomor polisi (wajib diisi)
+    if (empty($_POST['nopol'])) {
+      $status = "Nomor Polisi harus diisi!";
+    } else {
+      $nomor = $_POST['nopol'];
     }
-    ?>
 
+    // Validasi jenis mobil (wajib diisi)
+    if (empty($_POST['jenisMobil'])) {
+      $status = "Jenis Mobil harus diisi!";
+    } else {
+      $jenis = $_POST['jenisMobil'];
+    }
+
+    // Validasi harga mobil (wajib diisi dan hanya angka)
+    if (empty($_POST['hargaMobil'])) {
+      $status = "Harga Mobil harus diisi!";
+    } elseif (!is_numeric($_POST['hargaMobil'])) {
+      $status = "Harga Mobil harus berupa angka!";
+    } else {
+      $harga = $_POST['hargaMobil'];
+    }
+
+    // Validasi merk mobil (wajib diisi)
+    if (empty($_POST['merkMobil'])) {
+      $status = "Merk Mobil harus diisi!";
+    } else {
+      $merk = $_POST['merkMobil'];
+    }
+
+    // Validasi gambar mobil (wajib diisi dan harus berupa file gambar dengan ekstensi yang diizinkan)
+    if (empty($_FILES['gambarMobil']['name'])) {
+      $status = "Gambar Mobil harus diunggah!";
+    } else {
+      $ekstensi_diperbolehkan = array('png', 'jpg');
+      $nama = $_FILES['gambarMobil']['name'];
+      $x = explode('.', $nama);
+      $ekstensi = strtolower(end($x));
+      $ukuran = $_FILES['gambarMobil']['size'];
+      $file_tmp = $_FILES['gambarMobil']['tmp_name'];
+
+      if (!in_array($ekstensi, $ekstensi_diperbolehkan)) {
+        $status = "EKSTENSI FILE YANG DI UPLOAD TIDAK DI PERBOLEHKAN";
+      } elseif ($ukuran > 52428800) { // 52428800 byte = 50MB
+        $status = "UKURAN FILE TERLALU BESAR";
+      } else {
+        move_uploaded_file($file_tmp, 'file/' . $nama);
+      }
+    }
+
+    // Jika tidak ada error validasi, lakukan proses penyimpanan data
+    if (empty($status)) {
+      $query = mysqli_query($con, "INSERT INTO mobil VALUES('$nomor','$jenis','$harga', '$merk', '1', '$nama')");
+      if ($query) {
+        $status = "Data berhasil diinput";
+        echo "<script>window.location.href = 'daftarMobil.php?status=" . urlencode($status) . "';</script>";
+        exit();
+      } else {
+        $status = "Data gagal diinput!";
+      }
+    }
+  }
+  ?>
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -189,75 +218,81 @@ require 'head.php'; ?>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-            <div class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1 class="m-0">Tambah Data Mobil</h1>
-                        </div>
-                        <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Mobil</a></li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
+      <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0">Tambah Data Mobil</h1>
             </div>
-
-            <form action="formMobil.php" method="POST" enctype="multipart/form-data">
-                <?php if (!empty($status)) { ?>
-                    <div class="alert alert-<?php echo ($input) ? 'success' : 'danger'; ?>" role="alert">
-                        <?php echo $status; ?>
-                    </div>
-                <?php } ?>
-                <div class="card-body">
-                    <div class="form-group">
-                        <label for="nopol">Nomor Polisi</label>
-                        <input type="text" class="form-control" name="nopol" placeholder="Plat Nomor Kendaraan">
-                    </div>
-                    <div class="form-group">
-                        <label for="jenisMobil">Jenis Mobil</label>
-                        <input type="text" class="form-control" name="jenisMobil" placeholder="Jenis dan Type Mobil">
-                    </div>
-                    <div class="form-group">
-                        <label for="hargaMobil">Harga</label>
-                        <input type="text" class="form-control" name="hargaMobil" placeholder="Harga Sewa Mobil">
-                    </div>
-                    <div class="form-group">
-                        <label for="merkMobil">Merk</label>
-                        <input type="text" class="form-control" name="merkMobil" placeholder="Merk Mobil">
-                    </div>
-                    <div class="form-group">
-                        <label for="gambarMobil">Gambar Mobil</label>
-                        <div class="input-group">
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" name="gambarMobil" id="gambarMobil" onchange="updateLabel(this)">
-                                <label class="custom-file-label" id="gambarMobilLabel">Choose file</label>
-                            </div>
-                            <div class="input-group-append">
-                                <span class="input-group-text">Upload</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
-            </form>
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="#">Mobil</a></li>
+              </ol>
+            </div>
+          </div>
         </div>
+      </div>
+
+      <form action="formMobil.php" method="POST" enctype="multipart/form-data">
+        <?php if ($_SERVER['REQUEST_METHOD'] === 'POST') { ?>
+          <?php if (!empty($status)) { ?>
+            <div class="alert alert-danger" role="alert">
+              <?php echo $status; ?>
+            </div>
+          <?php } else { ?>
+            <div class="alert alert-success" role="alert">
+              Data berhasil diinput!
+            </div>
+          <?php } ?>
+        <?php } ?>
+        <div class="card-body">
+          <div class="form-group">
+            <label for="nopol">Nomor Polisi</label>
+            <input type="text" class="form-control" name="nopol" placeholder="Plat Nomor Kendaraan">
+          </div>
+          <div class="form-group">
+            <label for="jenisMobil">Jenis Mobil</label>
+            <input type="text" class="form-control" name="jenisMobil" placeholder="Jenis dan Type Mobil">
+          </div>
+          <div class="form-group">
+            <label for="hargaMobil">Harga</label>
+            <input type="text" class="form-control" name="hargaMobil" placeholder="Harga Sewa Mobil">
+          </div>
+          <div class="form-group">
+            <label for="merkMobil">Merk</label>
+            <input type="text" class="form-control" name="merkMobil" placeholder="Merk Mobil">
+          </div>
+          <div class="form-group">
+            <label for="gambarMobil">Gambar Mobil</label>
+            <div class="input-group">
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" name="gambarMobil" id="gambarMobil" onchange="updateLabel(this)">
+                <label class="custom-file-label" id="gambarMobilLabel">Choose file</label>
+              </div>
+              <div class="input-group-append">
+                <span class="input-group-text">Upload</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
     <!-- /.content-wrapper -->
   </div>
   <!-- ./wrapper -->
 
   <!-- REQUIRED SCRIPTS -->
   <script>
-        function updateLabel(input) {
-            var fileName = input.files[0].name;
-            var label = document.getElementById("gambarMobilLabel");
-            label.innerHTML = fileName;
-        }
-    </script>
+    function updateLabel(input) {
+      var fileName = input.files[0].name;
+      var label = document.getElementById("gambarMobilLabel");
+      label.innerHTML = fileName;
+    }
+  </script>
 
 </body>
 
