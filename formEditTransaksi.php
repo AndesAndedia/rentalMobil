@@ -103,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   if ($totalBiaya) {
     $query = mysqli_query($con, "UPDATE rental SET nik = '$nik', tanggal = '$tanggal', nopol = '$nopol', status = '$status_kondisi', lama = '$durasi', total = '$totalBiaya' WHERE id = '$id' ");
-    $query2 = mysqli_query($con, "UPDATE mobil SET status = 2 WHERE nopol = '$nopol' ");
+    $query2 = mysqli_query($con, "UPDATE mobil SET status = 1 WHERE nopol = '$nopol' ");
     if ($query && $query2) {
       $status = "Data berhasil diupdate!";
       header("Location: daftarTransaksi.php?edit_status=success");

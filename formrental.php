@@ -54,6 +54,8 @@ require 'head.php'; ?>
 			$status = "Semua field harus diisi!";
 		} elseif (!preg_match("/^[0-9]{16}$/", $nik)) {
 			$status = "NIK harus terdiri dari 16 digit angka!";
+		} elseif ($durasi < 0) {
+			$status = "Durasi tidak boleh bernilai negatif!";
 		} else {
 			function getBiayaRental($con, $nopol)
 			{

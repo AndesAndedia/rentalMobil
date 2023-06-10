@@ -27,6 +27,9 @@ require 'head.php'; ?>
   <!-- Script untuk nama file -->
   <script src="/Script/custom-file.js"></script>
 
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -168,16 +171,175 @@ require 'head.php'; ?>
       <!-- /.content-header -->
 
       <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+          <!-- Small boxes (Stat box) -->
+          <div class="row">
 
-      <!-- /.content -->
+            <?php
+            include './connection/koneksi.php';
+
+            $query = "SELECT count(id) AS totalTransaksi FROM rental";
+            $result = mysqli_query($con, $query);
+
+            if ($result && mysqli_num_rows($result) > 0) {
+              $row = mysqli_fetch_assoc($result);
+              $totalTransaksi = $row['totalTransaksi'];
+            } else {
+              $totalTransaksi = 0;
+            }
+            ?>
+            <!-- jumlah transaksi -->
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-info">
+                <div class="inner">
+                  <h3><?php echo "$totalTransaksi" ?></h3>
+
+                  <p>Total Transaksi</p>
+                </div>
+                <div class="icon">
+                  <i class="ion ion-pricetag"></i>
+                </div>
+                <a href="daftarTransaksi.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+
+
+            <?php
+            include './connection/koneksi.php';
+
+            $query = "SELECT count(nopol) AS totalMobil FROM mobil";
+            $result = mysqli_query($con, $query);
+
+            if ($result && mysqli_num_rows($result) > 0) {
+              $row = mysqli_fetch_assoc($result);
+              $totalMobil = $row['totalMobil'];
+            } else {
+              $totalMobil = 0;
+            }
+            ?>
+            <!-- jumlah aset -->
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-info">
+                <div class="inner">
+                  <h3><?php echo "$totalMobil" ?><sup style="font-size: 20px"></sup></h3>
+
+                  <p>Jumlah Aset</p>
+                </div>
+                <div class="icon">
+                  <i class="fa fa-car"></i>
+                </div>
+                <a href="daftarMobil.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+
+            <?php
+            include './connection/koneksi.php';
+
+            $query = "SELECT count(nopol) AS tersedia FROM mobil WHERE status = '1'";
+            $result = mysqli_query($con, $query);
+
+            if ($result && mysqli_num_rows($result) > 0) {
+              $row = mysqli_fetch_assoc($result);
+              $tersedia = $row['tersedia'];
+            } else {
+              $tersedia = 0;
+            }
+            ?>
+
+            <!-- jumlah mobil tersedia -->
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-success">
+                <div class="inner">
+                  <h3><?php echo "$tersedia" ?></h3>
+
+                  <p>Mobil Tersedia</p>
+                </div>
+                <div class="icon">
+                  <i class="fa fa-car"></i>
+                </div>
+                <a href="daftarMobil.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+
+            <?php
+            include './connection/koneksi.php';
+
+            $query = "SELECT count(nopol) AS dirental FROM mobil WHERE status = '2'";
+            $result = mysqli_query($con, $query);
+
+            if ($result && mysqli_num_rows($result) > 0) {
+              $row = mysqli_fetch_assoc($result);
+              $dirental = $row['dirental'];
+            } else {
+              $dirental = 0;
+            }
+            ?>
+
+            <!-- jumlah mobil dirental -->
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-warning">
+                <div class="inner">
+                  <h3><?php echo "$dirental" ?></h3>
+
+                  <p>Mobil Dirental</p>
+                </div>
+                <div class="icon">
+                  <i class="fa fa-car"></i>
+                </div>
+                <a href="daftarMobil.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+
+            <?php
+            include './connection/koneksi.php';
+
+            $query = "SELECT SUM(total) AS totalBiaya FROM rental";
+            $result = mysqli_query($con, $query);
+
+            if ($result && mysqli_num_rows($result) > 0) {
+              $row = mysqli_fetch_assoc($result);
+              $totalBiaya = $row['totalBiaya'];
+            } else {
+              $totalBiaya = 0;
+            }
+            ?>
+            <!-- jumlah pendapatan -->
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-success">
+                <div class="inner">
+                  <h3>Rp. <?php echo "$totalBiaya" ?><sup style="font-size: 20px"></sup></h3>
+
+                  <p>Total Pemasukan</p>
+                </div>
+                <div class="icon">
+                  <i class="ion ion-cash"></i>
+                </div>
+                <a href="selesaiRental.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+            <!-- ./col -->
+            <!-- ./col -->
+          </div>
+          <!-- /.row -->
+          <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
     </div>
-    <!-- /.content-wrapper -->
-  </div>
-  <!-- ./wrapper -->
+    <!-- ./wrapper -->
 
-  <!-- REQUIRED SCRIPTS -->
+    <!-- REQUIRED SCRIPTS -->
 
-  <!-- AdminLTE App -->
+    <!-- AdminLTE App -->
 
 </body>
 
