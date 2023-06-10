@@ -1,5 +1,38 @@
-<?php include './connection/koneksi.php';
-require 'head.php'; ?>
+<?php
+include './connection/koneksi.php';
+require 'head.php';
+
+$status = isset($_POST['status']) ? $_POST['status'] : '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $status = "";
+
+  $nik = $_POST['nik'];
+  $nama = $_POST['nama'];
+  $jk = $_POST['jk'];
+  $sim = $_POST['sim'];
+  $no = $_POST['no_telp'];
+  $alamat = $_POST['alamat'];
+
+  if (empty($nik) || empty($nama) || empty($jk) || empty($sim) || empty($no) || empty($alamat)) {
+    $status = "Silakan lengkapi semua field!";
+  } else {
+    $query = mysqli_query($con, "UPDATE pelanggan SET nama = '$nama', jk = '$jk', sim = '$sim', no_telp = '$no', alamat = '$alamat' WHERE nik = '$nik'");
+    if ($query) {
+      $status = "Data berhasil diupdate!";
+      header("Location: daftarPelanggan.php?edit_status=success");
+      exit();
+    } else {
+      $status =  "Data gagal diupdate!";
+    }
+  }
+}
+
+// Ambil data pelanggan dari database
+$nomor = isset($_GET['nik']) ? $_GET['nik'] : '';
+$query = mysqli_query($con, "SELECT * FROM pelanggan WHERE nik = '$nomor'");
+$data = mysqli_fetch_array($query);
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -144,88 +177,82 @@ require 'head.php'; ?>
             </li>
           </ul>
           <!-- /.sidebar-menu -->
+        </nav>
       </div>
       <!-- /.sidebar -->
     </aside>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-            <div class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1 class="m-0">Edit Data Pelanggan</h1>
-                        </div>
-                        <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Pelanggan</a></li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
+      <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0">Edit Data Pelanggan</h1>
             </div>
-
-            <?php 
-                include './connection/koneksi.php';
-                $nik = $_GET['nik'];
-                $data = mysqli_query($con,"SELECT * FROM pelanggan WHERE nik ='$nik'");
-                while ($arr = mysqli_fetch_array($data)) {
-            ?>
-				<form action="editPelanggan.php" method="POST" enctype="multipart/form-data">
-                <?php if (!empty($status)) { ?>
-                    <div class="alert alert-<?php echo ($input) ? 'success' : 'danger'; ?>" role="alert">
-                        <?php echo $status; ?>
-                    </div>
-                <?php } ?>
-                <div class="card-body">
-                    <div class="form-group">
-                        <label for="nik">NIK</label>
-                        <input type="text" class="form-control" name="nik" value="<?php echo $arr['nik'];?>" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="nama">Nama</label>
-                        <input type="text" class="form-control" name="nama" value="<?php echo $arr['nama'];?>">
-                    </div>
-
-					<div class="form-group">
-                        <label for="jk">Jenis Kelamin</label> <br>
-                        <input type="radio" name="jk" value="Laki-laki"> &nbsp <label for="">Laki-laki</label> &nbsp
-						<input type="radio" name="jk" value="Perempuan"> &nbsp <label for="">Perempuan</label>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="sim">SIM</label>
-                        <input type="text" class="form-control" name="sim" value="<?php echo $arr['sim'];?>">
-                    </div>
-                    <div class="form-group">
-                        <label for="no_telp">Nomor Telepon</label>
-                        <input type="text" class="form-control" name="no_telp" value="<?php echo $arr['no_telp'];?>">
-                    </div>
-					<div class="form-group">
-                        <label for="alamat">Alamat</label>
-                        <input type="text" class="form-control" name="alamat" value="<?php echo $arr['alamat'];?>">
-                    </div>
-                </div>
-
-                <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
-				<?php } ?>
-            </form>
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="#">Pelanggan</a></li>
+              </ol>
+            </div>
+          </div>
         </div>
+      </div>
+
+      <?php
+      if (!empty($status)) { ?>
+        <div class="alert alert-danger" role="alert">
+          <?php echo $status; ?>
+        </div>
+      <?php } ?>
+
+
+      <form method="POST" enctype="multipart/form-data">
+        <div class="card-body">
+          <div class="form-group">
+            <label for="nik">NIK</label>
+            <input type="text" class="form-control" name="nik" value="<?php echo $data['nik']; ?>" readonly>
+          </div>
+          <div class="form-group">
+            <label for="nama">Nama</label>
+            <input type="text" class="form-control" name="nama" value="<?php echo $data['nama']; ?>">
+          </div>
+
+          <div class="form-group">
+            <label for="jk">Jenis Kelamin</label> <br>
+            <input type="radio" name="jk" value="Laki-laki" <?php if ($data['jk'] == 'Laki-laki') echo "checked"; ?>> &nbsp <label for="">Laki-laki</label> &nbsp
+            <input type="radio" name="jk" value="Perempuan" <?php if ($data['jk'] == 'Perempuan') echo "checked"; ?>> &nbsp <label for="">Perempuan</label>
+          </div>
+
+          <div class="form-group">
+            <label for="sim">SIM</label>
+            <input type="text" class="form-control" name="sim" value="<?php echo $data['sim']; ?>">
+          </div>
+          <div class="form-group">
+            <label for="no_telp">Nomor Telepon</label>
+            <input type="text" class="form-control" name="no_telp" value="<?php echo $data['no_telp']; ?>">
+          </div>
+          <div class="form-group">
+            <label for="alamat">Alamat</label>
+            <input type="text" class="form-control" name="alamat" value="<?php echo $data['alamat']; ?>">
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <button type="submit" class="btn btn-primary">Update</button>
+        </div>
+      </form>
+    </div>
     <!-- /.content-wrapper -->
   </div>
   <!-- ./wrapper -->
 
-  <!-- REQUIRED SCRIPTS -->
-  <script>
-        function updateLabel(input) {
-            var fileName = input.files[0].name;
-            var label = document.getElementById("gambarMobilLabel");
-            label.innerHTML = fileName;
-        }
-    </script>
-
+  <!-- jQuery -->
+  <script src="style/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="style/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="style/AdminLTE/js/adminlte.min.js"></script>
 </body>
 
 </html>

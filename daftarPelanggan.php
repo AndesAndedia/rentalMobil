@@ -1,5 +1,7 @@
-<?php include './connection/koneksi.php';
-require 'head.php'; ?>
+<?php
+include './connection/koneksi.php';
+require 'head.php';
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -144,12 +146,38 @@ require 'head.php'; ?>
             </li>
           </ul>
           <!-- /.sidebar-menu -->
+        </nav>
       </div>
       <!-- /.sidebar -->
     </aside>
 
+    <!-- Mengambil Informasi Status -->
+    <?php
+    $status = isset($_GET['status']) ? $_GET['status'] : '';
+    $deleteStatus = isset($_GET['delete_status']) ? $_GET['delete_status'] : '';
+    $editStatus = isset($_GET['edit_status']) ? $_GET['edit_status'] : '';
+    ?>
+
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
+
+      <!-- Membuat Alert -->
+      <?php if (!empty($status)) { ?>
+        <div class="alert alert-success" role="alert">
+          <?php echo $status; ?>
+        </div>
+      <?php } ?>
+      <?php if ($deleteStatus == "success") { ?>
+        <div class="alert alert-success" role="alert">
+          <?php echo "Data Berhasil Dihapus"; ?>
+        </div>
+      <?php } ?>
+      <?php if ($editStatus == "success") { ?>
+        <div class="alert alert-success" role="alert">
+          <?php echo "Data Berhasil Diedit"; ?>
+        </div>
+      <?php } ?>
+
       <!-- Content Header (Page header) -->
       <div class="content-header">
         <div class="container-fluid">
@@ -210,26 +238,63 @@ require 'head.php'; ?>
                 <td><?php echo $arr['alamat']; ?></td>
                 <td>
                   <a href="formEditPelanggan.php?nik=<?php echo $arr['nik'] ?>"><button type="button" class="btn btn-warning">Edit</button></a>
-                  <a href="hapusPelanggan.php?nik=<?php echo $arr['nik'] ?>"><button type="button" class="btn btn-danger">Hapus</button></a>
+                  <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#hapusPelangganModal-<?php echo $arr['nik']; ?>">Hapus</button>
                 </td>
               </tr>
+              <!-- Modal -->
+              <div class="modal fade" id="hapusPelangganModal-<?php echo $arr['nik']; ?>" tabindex="-1" role="dialog" aria-labelledby="hapusPelangganModalLabel-<?php echo $arr['nik']; ?>" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="hapusPelangganModalLabel-<?php echo $arr['nik']; ?>">Hapus Pelanggan</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      Apakah Anda yakin ingin menghapus data pelanggan <?php echo $arr['nama']; ?>?
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <a href="hapusPelanggan.php?nik=<?php echo $arr['nik'] ?>"><button type="button" class="btn btn-danger">Hapus</button></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End Modal -->
             <?php } ?>
           </tbody>
         </table>
       </div>
       <!-- /.card-body -->
     </div>
-    <!-- /.card -->
-  </div>
-  </div>
-  <!-- /.content -->
+    <!-- /.content-wrapper -->
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+      <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+
+    <!-- Main Footer -->
+    <footer class="main-footer">
+      <!-- To the right -->
+      <div class="float-right d-none d-sm-inline">
+        Anything you want
+      </div>
+      <!-- Default to the left -->
+      <strong>Created by Andes Andedia</strong>
+    </footer>
   </div>
   <!-- ./wrapper -->
 
   <!-- REQUIRED SCRIPTS -->
-
+  <!-- jQuery -->
+  <script src="style/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="style/bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- AdminLTE App -->
-
+  <script src="style/dist/js/adminlte.min.js"></script>
 </body>
 
 </html>

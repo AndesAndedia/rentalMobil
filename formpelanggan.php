@@ -28,28 +28,46 @@ require 'head.php'; ?>
   <script src="/Script/custom-file.js"></script>
 
   <?php
-    include './connection/koneksi.php';
+  include './connection/koneksi.php';
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $status = "";
+  if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $status = "";
 
-        $nik = $_POST['nik'];
-        $nama = $_POST['nama'];
-        $jk = $_POST['jk'];
-        $sim = $_POST['sim'];
-		$no = $_POST['no_telp'];
-		$alamat = $_POST['alamat'];
+    $nik = $_POST['nik'];
+    $nama = $_POST['nama'];
+    $jk = $_POST['jk'] ?? '';
+    $sim = $_POST['sim'];
+    $no = $_POST['no_telp'];
+    $alamat = $_POST['alamat'];
 
-		$query = mysqli_query($con, "INSERT INTO pelanggan VALUES('$nik','$nama','$jk', '$sim', '$no', '$alamat')");
-		if ($query) {
-			$status = "Data berhasil diinput!";
-			echo "<script>window.location.href = 'daftarPelanggan.php';</script>";
-			exit();
-		} else {
-			$status =  "Data gagal diinput!";
-		}
-	}
-    ?>
+    // Validasi
+    if (empty($nik) || empty($nama) || empty($jk) || empty($sim) || empty($no) || empty($alamat)) {
+      $status = "Semua field harus diisi!";
+    }
+
+    // Validasi NIK
+    if (!preg_match("/^[0-9]{16}$/", $nik)) {
+      $status = "NIK harus terdiri dari 16 digit angka!";
+    }
+
+    // Validasi Nomor Telepon
+    if (!preg_match("/^[0-9]{10,14}$/", $no)) {
+      $status = "Nomor Telepon harus terdiri dari 10-14 digit angka!";
+    }
+
+    // Jika tidak ada error validasi, maka simpan data ke database
+    if (empty($status)) {
+      $query = mysqli_query($con, "INSERT INTO pelanggan VALUES('$nik','$nama','$jk', '$sim', '$no', '$alamat')");
+      if ($query) {
+        $status = "Data berhasil diinput";
+        echo "<script>window.location.href = 'daftarPelanggan.php?status=" . urlencode($status) . "';</script>";
+        exit();
+      } else {
+        $status = "Data gagal diinput!";
+      }
+    }
+  }
+  ?>
 
 </head>
 
@@ -174,74 +192,80 @@ require 'head.php'; ?>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-            <div class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1 class="m-0">Tambah Data Pelanggan</h1>
-                        </div>
-                        <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Pelanggan</a></li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
+      <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0">Tambah Data Pelanggan</h1>
             </div>
-
-            <form action="formPelanggan.php" method="POST" enctype="multipart/form-data">
-                <?php if (!empty($status)) { ?>
-                    <div class="alert alert-<?php echo ($input) ? 'success' : 'danger'; ?>" role="alert">
-                        <?php echo $status; ?>
-                    </div>
-                <?php } ?>
-                <div class="card-body">
-                    <div class="form-group">
-                        <label for="nik">NIK</label>
-                        <input type="text" class="form-control" name="nik" placeholder="NIK Pelanggan">
-                    </div>
-                    <div class="form-group">
-                        <label for="nama">Nama</label>
-                        <input type="text" class="form-control" name="nama" placeholder="Nama Pelanggan">
-                    </div>
-
-					<div class="form-group">
-                        <label for="jk">Jenis Kelamin</label> <br>
-                        <input type="radio" name="jk" value="Laki-laki"> &nbsp <label for="">Laki-laki</label> &nbsp
-						<input type="radio" name="jk" value="Perempuan"> &nbsp <label for="">Perempuan</label>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="sim">SIM</label>
-                        <input type="text" class="form-control" name="sim" placeholder="Nomor SIM Pelanggan">
-                    </div>
-                    <div class="form-group">
-                        <label for="no_telp">Nomor Telepon</label>
-                        <input type="text" class="form-control" name="no_telp" placeholder="Nomor Telepon">
-                    </div>
-					<div class="form-group">
-                        <label for="alamat">Alamat</label>
-                        <input type="text" class="form-control" name="alamat" placeholder="Alamat Pelanggan">
-                    </div>
-                </div>
-
-                <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
-            </form>
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="#">Pelanggan</a></li>
+              </ol>
+            </div>
+          </div>
         </div>
+      </div>
+
+      <form action="formPelanggan.php" method="POST" enctype="multipart/form-data">
+        <?php if ($_SERVER['REQUEST_METHOD'] === 'POST') { ?>
+          <?php if (!empty($status)) { ?>
+            <div class="alert alert-danger" role="alert">
+              <?php echo $status; ?>
+            </div>
+          <?php } else { ?>
+            <div class="alert alert-success" role="alert">
+              Data berhasil diinput!
+            </div>
+          <?php } ?>
+        <?php } ?>
+        <div class="card-body">
+          <div class="form-group">
+            <label for="nik">NIK</label>
+            <input type="text" class="form-control" name="nik" placeholder="NIK Pelanggan">
+          </div>
+          <div class="form-group">
+            <label for="nama">Nama</label>
+            <input type="text" class="form-control" name="nama" placeholder="Nama Pelanggan">
+          </div>
+
+          <div class="form-group">
+            <label for="jk">Jenis Kelamin</label> <br>
+            <input type="radio" name="jk" value="Laki-laki"> &nbsp <label for="">Laki-laki</label> &nbsp
+            <input type="radio" name="jk" value="Perempuan"> &nbsp <label for="">Perempuan</label>
+          </div>
+
+          <div class="form-group">
+            <label for="sim">SIM</label>
+            <input type="text" class="form-control" name="sim" placeholder="Nomor SIM Pelanggan">
+          </div>
+          <div class="form-group">
+            <label for="no_telp">Nomor Telepon</label>
+            <input type="text" class="form-control" name="no_telp" placeholder="Nomor Telepon">
+          </div>
+          <div class="form-group">
+            <label for="alamat">Alamat</label>
+            <input type="text" class="form-control" name="alamat" placeholder="Alamat Pelanggan">
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
     <!-- /.content-wrapper -->
   </div>
   <!-- ./wrapper -->
 
   <!-- REQUIRED SCRIPTS -->
   <script>
-        function updateLabel(input) {
-            var fileName = input.files[0].name;
-            var label = document.getElementById("gambarMobilLabel");
-            label.innerHTML = fileName;
-        }
-    </script>
+    function updateLabel(input) {
+      var fileName = input.files[0].name;
+      var label = document.getElementById("gambarMobilLabel");
+      label.innerHTML = fileName;
+    }
+  </script>
 
 </body>
 
