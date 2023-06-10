@@ -252,8 +252,13 @@ require 'head.php'; ?>
           </div>
           <div class="form-group">
             <label for="jenisMobil">Jenis Mobil</label>
-            <input type="text" class="form-control" name="jenisMobil" placeholder="Jenis dan Type Mobil">
+            <select class="form-control" name="jenisMobil">
+              <option value="MPV">MPV</option>
+              <option value="SUV">SUV</option>
+              <option value="Sedan">Sedan</option>
+            </select>
           </div>
+
           <div class="form-group">
             <label for="hargaMobil">Harga</label>
             <input type="text" class="form-control" name="hargaMobil" placeholder="Harga Sewa Mobil">

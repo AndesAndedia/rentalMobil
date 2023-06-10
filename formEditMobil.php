@@ -245,10 +245,24 @@ $data = mysqli_fetch_array($query);
             <label for="nopol">Nomor Polisi:</label>
             <input type="text" class="form-control" name="nopol" value="<?php echo $data['nopol']; ?>" readonly>
           </div>
+          <?php
+          $defaultValue = $data['jenis']; // Nilai default dari database atau variabel
+
+          $jenisMobilOptions = ["MPV", "SUV", "Sedan"];
+          ?>
+
           <div class="form-group">
-            <label for="jenisMobil">Jenis Mobil:</label>
-            <input type="text" class="form-control" name="jenisMobil" value="<?php echo $data['jenis']; ?>">
+            <label for="jenisMobil">Jenis Mobil</label>
+            <select class="form-control" name="jenisMobil">
+              <?php
+              foreach ($jenisMobilOptions as $option) {
+                $selected = ($option == $defaultValue) ? "selected" : "";
+                echo "<option value=\"$option\" $selected>$option</option>";
+              }
+              ?>
+            </select>
           </div>
+
           <div class="form-group">
             <label for="hargaMobil">Harga Mobil:</label>
             <input type="text" class="form-control" name="hargaMobil" value="<?php echo $data['biaya']; ?>">
