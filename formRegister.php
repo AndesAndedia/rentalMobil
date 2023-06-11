@@ -46,7 +46,7 @@
                 <!-- End Input Name -->
                 <div class="form-group">
                     <label for="inputName">Password</label>
-                    <input type="password" class="form-control" id="inputName" name="password" placeholder="Password Anda" required />
+                    <input type="password" class="form-control" id="inputName" name="password" placeholder="Password Anda" pattern=".{8,}" title="Eight or more characters" required />
                     <small class="form-text text-muted">Silahkan isi username anda</small>
                 </div>
 
@@ -60,13 +60,13 @@
                 <!-- End Input Telephone -->
                 <div class="form-group">
                     <label for="jk">Jenis Kelamin</label> <br>
-                    <input type="radio" name="jk" value="Laki-laki"> &nbsp <label for="">Laki-laki</label> &nbsp
+                    <input type="radio" name="jk" value="Laki-laki" required> &nbsp <label for="">Laki-laki</label> &nbsp
                     <input type="radio" name="jk" value="Perempuan"> &nbsp <label for="">Perempuan</label>
                 </div>
                 <!-- Start Input NIK -->
                 <div class="form-group">
                     <label for="inputName">NIK</label>
-                    <input type="text" class="form-control" id="inputName" name="nik" placeholder="NIK Anda" required />
+                    <input type="text" class="form-control" id="inputName" name="nik" placeholder="NIK Anda" pattern=".{16,}" title="Eight or more characters" required />
                     <small class="form-text text-muted">Kami tidak akan memberikan nomor NIK anda ke siapapun</small>
                 </div>
                 <!-- End Input NIK -->
@@ -79,15 +79,15 @@
                     <small class="form-text text-muted">Silahkan isi nomor SIM anda</small>
                 </div>
                 <!-- End Input SIM -->
-                                <!-- Start Input Alamat -->
-                                <div class="form-group">
+                <!-- Start Input Alamat -->
+                <div class="form-group">
                     <label for="inputName">Alamat</label>
-                    <input type="text" class="form-control" id="inputName" name="alamat" placeholder="Masukkan Alamat Anda"  required />
+                    <input type="text" class="form-control" id="inputName" name="alamat" placeholder="Masukkan Alamat Anda" required />
                     <small class="form-text text-muted">Silahkan isi Alamat anda</small>
                 </div>
                 <!-- End Input Alamat -->
                 <br>
-                
+
                 <!-- Start Submit Button -->
                 <button class="btn btn-primary btn-block col-lg-2" type="submit">Submit</button>
                 <!-- End Submit Button -->
