@@ -33,6 +33,7 @@ http://www.templatemo.com/tm-511-journey
           <![endif]-->
 </head>
 
+
 <body>
     <div class="tm-main-content" id="top">
         <div class="tm-top-bar-bg"></div>
@@ -58,11 +59,10 @@ http://www.templatemo.com/tm-511-journey
                                     <a class="nav-link" href="daftarRental2.php">Daftar Rental</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="daftarTransaksi2.php">Daftar Transaksi</a>
-                                </li>
-
-                                <li class="nav-item">
                                     <a class="nav-link" href="profil2.php?nik=<?php echo $arr['nik'] ?>">Profil</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="logout.php">Log Out</a>
                                 </li>
                             </ul>
                         </div>
