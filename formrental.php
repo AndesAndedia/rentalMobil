@@ -67,8 +67,8 @@ require 'head.php'; ?>
 			$totalBiaya = getBiayaRental($con, $nopol) * $durasi;
 
 			if ($totalBiaya) {
-				$query = mysqli_query($con, "INSERT INTO rental (nik, tanggal, nopol, status, lama, total) VALUES ('$nik', '$tanggal', '$nopol', 0, '$durasi', '$totalBiaya')");
-				$query2 = mysqli_query($con, "UPDATE mobil set status = 0 where nopol = '$nopol' ");
+				$query = mysqli_query($con, "INSERT INTO rental (nik, tanggal, nopol, status, lama, total) VALUES ('$nik', '$tanggal', '$nopol', '0', '$durasi', '$totalBiaya')");
+				$query2 = mysqli_query($con, "UPDATE mobil set status = '0' where nopol = '$nopol' ");
 				if ($query || $query2) {
 					$status = "Data berhasil diinput!";
 					echo "<script>window.location.href = 'daftarTransaksi.php?status=" . urlencode($status) . "';</script>";
