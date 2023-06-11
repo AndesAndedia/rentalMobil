@@ -1,6 +1,9 @@
-<!DOCTYPE html>
-<?php include './connection/koneksi.php'; require 'header2.php';
+<?php
+include './connection/koneksi.php';
+require 'header2.php';
 ?>
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -36,7 +39,7 @@ http://www.templatemo.com/tm-511-journey
 </head>
 
 <body>
-    <div class="tm-main-content" id="top">
+<div class="tm-main-content" id="top">
         <div class="tm-top-bar-bg"></div>
         <div class="tm-top-bar" id="tm-top-bar">
             <div class="container">
@@ -51,10 +54,10 @@ http://www.templatemo.com/tm-511-journey
                         <div id="mainNav" class="collapse navbar-collapse tm-bg-white">
                             <ul class="navbar-nav ml-auto">
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="index.php">Home <span class="sr-only">(current)</span></a>
+                                    <a class="nav-link active" href="indexLogin.php#top">Home <span class="sr-only">(current)</span></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="index.php#tm-section-3">Rental</a>
+                                    <a class="nav-link" href="indexLogin.php#tm-section-3">Rental</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="daftarRental2.php">Daftar Rental</a>
@@ -64,7 +67,7 @@ http://www.templatemo.com/tm-511-journey
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#tm-section-4">Login</a>
+                                    <a class="nav-link" href="profil2.php?nik=<?php echo $arr['nik'] ?>">Profil</a>
                                 </li>
                             </ul>
                         </div>
@@ -78,8 +81,7 @@ http://www.templatemo.com/tm-511-journey
 
         <!-- /.content-header -->
         <div class="jumbotron">
-            <hr class="my-2">
-            <h3>Daftar Rental</h3>
+            <h3>Daftar Transaksi</h3>
             <hr class="my-2">
             <table class="table table-dark table-hover">
                 <thead>
@@ -93,24 +95,24 @@ http://www.templatemo.com/tm-511-journey
                     </tr>
                 </thead>
                 <tbody>
-                <?php 
-    $nik= $arr['nik'];
-$data = mysqli_query($con,"SELECT * FROM rental RIGHT JOIN  mobil ON rental.nopol = mobil.nopol  WHERE rental.nik = '$nik' AND rental.status='1'");
-while ($arrr=mysqli_fetch_array($data)) {	
-	 ?>
-<tr>
-	<td><?php echo $arrr['nopol']; ?></td>
-    <td><?php echo $arrr['merk']; ?></td>
-	<td><?php if ($arrr['status']==2) {
-		echo "Rental";
-	}else{
-		echo "Selesai";
-	} ?></td>
-    <td><?php echo $arrr['tanggal']; ?></td>
-	<td><?php echo $arrr['lama']; ?></td>
-	<td>Rp.<?php echo $arrr['total']; ?></td>
-</tr>
-<?php } ?>
+                    <?php
+                    $nik = $arr['nik'];
+                    $data = mysqli_query($con, "SELECT * FROM rental RIGHT JOIN  mobil ON rental.nopol = mobil.nopol  WHERE rental.nik = '$nik' AND rental.status='1'");
+                    while ($arrr = mysqli_fetch_array($data)) {
+                    ?>
+                        <tr>
+                            <td><?php echo $arrr['nopol']; ?></td>
+                            <td><?php echo $arrr['merk']; ?></td>
+                            <td><?php if ($arrr['status'] == 2) {
+                                    echo "Rental";
+                                } else {
+                                    echo "Selesai";
+                                } ?></td>
+                            <td><?php echo $arrr['tanggal']; ?></td>
+                            <td><?php echo $arrr['lama']; ?></td>
+                            <td>Rp.<?php echo $arrr['total']; ?></td>
+                        </tr>
+                    <?php } ?>
                 <tbody>
             </table>
         </div>
