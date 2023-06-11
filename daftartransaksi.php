@@ -202,7 +202,7 @@ require 'head.php'; ?>
                         <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
 
                         <div class="input-group-append">
-                            <button type="submit" class="btn btn-default">
+                            <button type="submit" class="btn btn-default" style="align-items: center;">
                                 <i class="fas fa-search"></i>
                             </button>
                         </div>
