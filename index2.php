@@ -1,6 +1,5 @@
 <?php
 include './connection/koneksi.php';
-require 'header2.php';
 $mob  = mysqli_query($con, "SELECT * FROM mobil WHERE status='1'");
 ?>
 <!DOCTYPE html>
@@ -50,22 +49,19 @@ http://www.templatemo.com/tm-511-journey
                         <div id="mainNav" class="collapse navbar-collapse tm-bg-white">
                             <ul class="navbar-nav ml-auto">
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="indexLogin.php#top">Home <span class="sr-only">(current)</span></a>
+                                    <a class="nav-link active" href="index2.php#top">Home <span class="sr-only">(current)</span></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="indexLogin.php#tm-section-3">Rental</a>
+                                    <a class="nav-link" href="index2.php#tm-section-3">Rental</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="daftarRental2.php">Daftar Rental</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="daftarTransaksi2.php">Daftar Transaksi</a>
+                                    <a class="nav-link" href="daftarRental2.php">Daftar Transaksi</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="profil2.php?nik=<?php echo $arr['nik'] ?>">Profil</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="logout.php">Log Out</a>
+                                    <a class="nav-link" href="login.php">Log In</a>
                                 </li>
                             </ul>
                         </div>
@@ -171,7 +167,7 @@ http://www.templatemo.com/tm-511-journey
                                         <p class="tm-text-highlight"><?php echo $arrMobil['jenis']; ?></p>
                                         <p class="tm-text-gray">Sewa hanya dengan harga Rp. <?php echo $arrMobil['biaya']; ?> per hari</p>
                                     </div>
-                                    <a href="formrental2.php?nopol=<?php echo $arrMobil['nopol']; ?>" class="tm-recommended-price-box">
+                                    <a href="login.php" class="tm-recommended-price-box">
                                         <p class="tm-recommended-price">Rp. <?php echo $arrMobil['biaya']; ?></p>
                                         <p class="tm-recommended-price-link">Rental Sekarang</p>
                                     </a>
@@ -200,7 +196,7 @@ http://www.templatemo.com/tm-511-journey
                                         <p class="tm-text-highlight"><?php echo $arrMobil['jenis']; ?></p>
                                         <p class="tm-text-gray">Sewa hanya dengan harga Rp. <?php echo $arrMobil['biaya']; ?> per hari</p>
                                     </div>
-                                    <a href="formrental2.php?nopol=<?php echo $arrMobil['nopol']; ?>" class="tm-recommended-price-box">
+                                    <a href="login.php" class="tm-recommended-price-box">
                                         <p class="tm-recommended-price">Rp. <?php echo $arrMobil['biaya']; ?></p>
                                         <p class="tm-recommended-price-link">Rental Sekarang</p>
                                     </a>
@@ -228,7 +224,7 @@ http://www.templatemo.com/tm-511-journey
                                         <p class="tm-text-highlight"><?php echo $arrMobil['jenis']; ?></p>
                                         <p class="tm-text-gray">Sewa hanya dengan harga Rp. <?php echo $arrMobil['biaya']; ?> per hari</p>
                                     </div>
-                                    <a href="formrental2.php?nopol=<?php echo $arrMobil['nopol']; ?>" class="tm-recommended-price-box">
+                                    <a href="login.php" class="tm-recommended-price-box">
                                         <p class="tm-recommended-price">Rp. <?php echo $arrMobil['biaya']; ?></p>
                                         <p class="tm-recommended-price-link">Rental Sekarang</p>
                                     </a>

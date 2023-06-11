@@ -54,20 +54,22 @@ http://www.templatemo.com/tm-511-journey
                         <div id="mainNav" class="collapse navbar-collapse tm-bg-white">
                             <ul class="navbar-nav ml-auto">
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="indexLogin.php#top">Home <span class="sr-only">(current)</span></a>
+                                    <a class="nav-link" href="indexLogin.php#top">Home <span class="sr-only">(current)</span></a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="indexLogin.php#tm-section-3">Rental</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="daftarRental2.php">Daftar Rental</a>
+                                    <a class="nav-link active" href="daftarRental2.php">Daftar Rental</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="daftarTransaksi2.php">Daftar Transaksi</a>
                                 </li>
-
                                 <li class="nav-item">
                                     <a class="nav-link" href="profil2.php?nik=<?php echo $arr['nik'] ?>">Profil</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="logout.php">Log Out</a>
                                 </li>
                             </ul>
                         </div>

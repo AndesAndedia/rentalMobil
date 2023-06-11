@@ -31,9 +31,7 @@ $arr = mysqli_fetch_array($data);
     <title>Registrasi MoovOn</title>
 </head>
 
-<body class="container-sm bg-light">
-
-    <div class="tm-main-content" id="top">
+<div class="tm-main-content" id="top">
         <div class="tm-top-bar-bg"></div>
         <div class="tm-top-bar" id="tm-top-bar">
             <div class="container">
@@ -48,7 +46,7 @@ $arr = mysqli_fetch_array($data);
                         <div id="mainNav" class="collapse navbar-collapse tm-bg-white">
                             <ul class="navbar-nav ml-auto">
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="indexLogin.php#top">Home <span class="sr-only">(current)</span></a>
+                                    <a class="nav-link" href="indexLogin.php#top">Home <span class="sr-only">(current)</span></a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="indexLogin.php#tm-section-3">Rental</a>
@@ -59,9 +57,11 @@ $arr = mysqli_fetch_array($data);
                                 <li class="nav-item">
                                     <a class="nav-link" href="daftarTransaksi2.php">Daftar Transaksi</a>
                                 </li>
-
                                 <li class="nav-item">
-                                    <a class="nav-link" href="profil2.php?nik=<?php echo $arr['nik'] ?>">Profil</a>
+                                    <a class="nav-link active" href="profil2.php?nik=<?php echo $arr['nik'] ?>">Profil</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="logout.php">Log Out</a>
                                 </li>
                             </ul>
                         </div>
