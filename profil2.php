@@ -31,7 +31,8 @@ $arr = mysqli_fetch_array($data);
     <title>Registrasi MoovOn</title>
 </head>
 
-<div class="tm-main-content" id="top">
+<body>
+    <div class="tm-main-content" id="top">
         <div class="tm-top-bar-bg"></div>
         <div class="tm-top-bar" id="tm-top-bar">
             <div class="container">
@@ -91,6 +92,7 @@ $arr = mysqli_fetch_array($data);
                         <label for="inputName">NIK</label>
                         <input type="text" class="form-control" id="inputName" name="nik" value="<?php echo $arr['nik']; ?>" required readonly />
                         <small class="form-text text-muted">Kami tidak akan memberikan nomor NIK Anda ke siapapun</small>
+                        <div class="invalid-feedback">NIK harus diisi.</div>
                     </div>
                     <!-- End Input NIK -->
 
@@ -99,6 +101,7 @@ $arr = mysqli_fetch_array($data);
                         <label for="inputName">Nama</label>
                         <input type="text" class="form-control" id="inputName" name="nama" value="<?php echo $arr['nama']; ?>" required />
                         <small class="form-text text-muted">Silahkan isi nama Anda</small>
+                        <div class="invalid-feedback">Nama harus diisi.</div>
                     </div>
                     <!-- End Input Name -->
 
@@ -106,6 +109,7 @@ $arr = mysqli_fetch_array($data);
                         <label for="jk">Jenis Kelamin</label> <br>
                         <input type="radio" name="jk" value="Laki-laki" <?php echo ($arr['jk'] == 'Laki-laki') ? 'checked' : '' ?>> &nbsp <label for="">Laki-laki</label> &nbsp
                         <input type="radio" name="jk" value="Perempuan" <?php echo ($arr['jk'] == 'Perempuan') ? 'checked' : '' ?>> &nbsp <label for="">Perempuan</label>
+                        <div class="invalid-feedback">Jenis Kelamin harus dipilih.</div>
                     </div>
 
                     <!-- Start Input Telephone -->
@@ -113,6 +117,7 @@ $arr = mysqli_fetch_array($data);
                         <label for="inputPhone">Nomor Telepon</label>
                         <input type="tel" class="form-control" id="inputPhone" name="no_telp" value="<?php echo $arr['no_telp']; ?>" required />
                         <small class="form-text text-muted">Kami tidak akan memberikan nomor Anda ke siapapun</small>
+                        <div class="invalid-feedback">Nomor Telepon harus diisi.</div>
                     </div>
                     <!-- End Input Telephone -->
 
@@ -122,6 +127,7 @@ $arr = mysqli_fetch_array($data);
                         <label for="inputName">SIM</label>
                         <input type="text" class="form-control" id="inputName" name="sim" value="<?php echo $arr['sim']; ?>" required />
                         <small class="form-text text-muted">Silahkan isi nomor SIM Anda</small>
+                        <div class="invalid-feedback">Nomor SIM harus diisi.</div>
                     </div>
                     <!-- End Input SIM -->
 
@@ -131,6 +137,7 @@ $arr = mysqli_fetch_array($data);
                         <label for="inputName">Alamat</label>
                         <input type="text" class="form-control" id="inputName" name="alamat" value="<?php echo $arr['alamat']; ?>" required />
                         <small class="form-text text-muted">Silahkan isi Alamat Anda</small>
+                        <div class="invalid-feedback">Alamat harus diisi.</div>
                     </div>
                     <!-- End Input Alamat -->
                     <br>
@@ -159,50 +166,6 @@ $arr = mysqli_fetch_array($data);
                 'use strict';
                 window.addEventListener('load', function() {
                     // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                    var forms = document.getElementsByClassName('needs-validation');
-                    // Loop over them and prevent submission
-                    var validation = Array.prototype.filter.call(forms, function(form) {
-                        form.addEventListener('submit', function(event) {
-                            if (form.checkValidity() === false) {
-                                event.preventDefault();
-                                event.stopPropagation();
-                            }
-                            form.classList.add('was-validated');
-                        }, false);
-                    });
-                }, false);
-            })();
-        </script>
-        <!-- End Scritp for Form -->
-
-        <script>
-            // Example starter JavaScript for disabling form submissions if there are invalid fields
-            (function() {
-                'use strict';
-                window.addEventListener('load', function() {
-                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                    var forms = document.getElementsByClassName('needs-validation');
-                    // Loop over them and prevent submission
-                    var validation = Array.prototype.filter.call(forms, function(form) {
-                        form.addEventListener('submit', function(event) {
-                            if (form.checkValidity() === false) {
-                                event.preventDefault();
-                                event.stopPropagation();
-                            }
-                            form.classList.add('was-validated');
-                        }, false);
-                    });
-                }, false);
-            })();
-        </script>
-        <!-- End Scritp for Form -->
-
-        <script>
-            // Optional JavaScript for disabling form submissions if there are invalid fields
-            (function() {
-                'use strict';
-                window.addEventListener('load', function() {
-                    // Get the forms we want to add validation styles to
                     var forms = document.getElementsByClassName('needs-validation');
                     // Loop over them and prevent submission
                     var validation = Array.prototype.filter.call(forms, function(form) {
