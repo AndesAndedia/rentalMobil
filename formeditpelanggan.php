@@ -14,6 +14,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $no = $_POST['no_telp'];
   $alamat = $_POST['alamat'];
 
+  // Validasi NIK
+  if (!preg_match("/^[0-9]{16}$/", $nik)) {
+    $status = "NIK harus terdiri dari 16 digit angka!";
+  }
+
+  // Validasi Nomor Telepon
+  if (!preg_match("/^[0-9]{10,14}$/", $no)) {
+    $status = "Nomor Telepon harus terdiri dari 10-14 digit angka!";
+  }
+
   if (empty($nik) || empty($nama) || empty($jk) || empty($sim) || empty($no) || empty($alamat)) {
     $status = "Silakan lengkapi semua field!";
   } else {
