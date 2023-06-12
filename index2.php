@@ -55,12 +55,6 @@ http://www.templatemo.com/tm-511-journey
                                     <a class="nav-link" href="index2.php#tm-section-3">Rental</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="daftarRental2.php">Daftar Rental</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="daftarRental2.php">Daftar Transaksi</a>
-                                </li>
-                                <li class="nav-item">
                                     <a class="nav-link" href="login.php">Log In</a>
                                 </li>
                             </ul>
@@ -88,7 +82,7 @@ http://www.templatemo.com/tm-511-journey
                         <div class="row tm-banner-row" id="tm-section-search">
                             <div class="form-group tm-form-group tm-form-group-pad tm-form-group-1">
                                 <label for="btnSubmit">&nbsp;</label>
-                                <a href="formRental.php"><button type="submit" class="btn btn-primary tm-btn tm-btn-search text-uppercase" id="btnSubmit">Daftar Sekarang</button></a>
+                                <a href="index2.php#tm-section-3"><button type="submit" class="btn btn-primary tm-btn tm-btn-search text-uppercase" id="btnSubmit">Daftar Sekarang</button></a>
                             </div>
                         </div> <!-- row -->
                         <div class="tm-banner-overlay"></div>

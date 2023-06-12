@@ -1,5 +1,4 @@
 <html>
->
 
 <head>
     <!-- Required meta tags -->
@@ -15,7 +14,7 @@
 <body class="container-sm bg-light">
     <!-- Start Header form -->
     <div class="text-center pt-5">
-        <img src="https://i.ibb.co/8cDgdFX/Logo.png" alt="logo" width="72" height="72" />
+        <img src="assets/logo.jpeg" alt="logo" width="72" height="72" />
         <h2>Registrasi MoovOn</h2>
         <p>
             Berikut ini beberapa data yang perlu diisi untuk melakukan rental di MoovOn
@@ -33,60 +32,62 @@
                 <div class="form-group">
                     <label for="inputName">Nama</label>
                     <input type="text" class="form-control" id="inputName" name="nama" placeholder="Nama Anda" required />
-                    <small class="form-text text-muted">Silahkan isi nama anda</small>
+                    <div class="invalid-feedback">Silahkan isi nama Anda.</div>
                 </div>
                 <!-- End Input Name -->
 
                 <!-- Start Input Name -->
                 <div class="form-group">
-                    <label for="inputName">Username</label>
-                    <input type="text" class="form-control" id="inputName" name="username" placeholder="Username Anda" required />
-                    <small class="form-text text-muted">Silahkan isi username anda</small>
+                    <label for="inputUsername">Username</label>
+                    <input type="text" class="form-control" id="inputUsername" name="username" placeholder="Username Anda" required />
+                    <div class="invalid-feedback">Silahkan isi username Anda.</div>
                 </div>
                 <!-- End Input Name -->
-                <div class="form-group">
-                    <label for="inputName">Password</label>
-                    <input type="password" class="form-control" id="inputName" name="password" placeholder="Password Anda" pattern=".{8,}" title="Eight or more characters" required />
-                    <small class="form-text text-muted">Silahkan isi username anda</small>
-                </div>
 
+                <div class="form-group">
+                    <label for="inputPassword">Password</label>
+                    <input type="password" class="form-control" id="inputPassword" name="password" placeholder="Password Anda" pattern=".{8,}" title="Eight or more characters" required />
+                    <div class="invalid-feedback">Silahkan isi password Anda dengan minimal 8 karakter.</div>
+                </div>
 
                 <!-- Start Input Telephone -->
                 <div class="form-group">
                     <label for="inputPhone">Nomor Telepon</label>
                     <input type="tel" class="form-control" id="inputPhone" name="no_telp" placeholder="08********" required />
-                    <small class="form-text text-muted">Kami tidak akan memberikan nomor anda ke siapapun</small>
+                    <div class="invalid-feedback">Silahkan isi nomor telepon Anda.</div>
                 </div>
                 <!-- End Input Telephone -->
+
                 <div class="form-group">
                     <label for="jk">Jenis Kelamin</label> <br>
                     <input type="radio" name="jk" value="Laki-laki" required> &nbsp <label for="">Laki-laki</label> &nbsp
                     <input type="radio" name="jk" value="Perempuan"> &nbsp <label for="">Perempuan</label>
+                    <div class="invalid-feedback">Silahkan pilih jenis kelamin Anda.</div>
                 </div>
+
                 <!-- Start Input NIK -->
                 <div class="form-group">
-                    <label for="inputName">NIK</label>
-                    <input type="text" class="form-control" id="inputName" name="nik" placeholder="NIK Anda" pattern=".{16,}" title="Eight or more characters" required />
-                    <small class="form-text text-muted">Kami tidak akan memberikan nomor NIK anda ke siapapun</small>
+                    <label for="inputNIK">NIK</label>
+                    <input type="text" class="form-control" id="inputNIK" name="nik" placeholder="NIK Anda" pattern="[0-9]{16}" title="NIK harus terdiri dari 16 angka" required />
+                    <div class="invalid-feedback">Silahkan isi NIK Anda dengan 10 angka.</div>
                 </div>
                 <!-- End Input NIK -->
 
-
                 <!-- Start Input SIM -->
                 <div class="form-group">
-                    <label for="inputName">SIM</label>
-                    <input type="text" class="form-control" id="inputName" name="sim" placeholder="SIM Anda" required />
-                    <small class="form-text text-muted">Silahkan isi nomor SIM anda</small>
+                    <label for="inputSIM">SIM</label>
+                    <input type="text" class="form-control" id="inputSIM" name="sim" placeholder="SIM Anda" required />
+                    <div class="invalid-feedback">Silahkan isi nomor SIM Anda.</div>
                 </div>
                 <!-- End Input SIM -->
+
                 <!-- Start Input Alamat -->
                 <div class="form-group">
-                    <label for="inputName">Alamat</label>
-                    <input type="text" class="form-control" id="inputName" name="alamat" placeholder="Masukkan Alamat Anda" required />
-                    <small class="form-text text-muted">Silahkan isi Alamat anda</small>
+                    <label for="inputAlamat">Alamat</label>
+                    <input type="text" class="form-control" id="inputAlamat" name="alamat" placeholder="Masukkan Alamat Anda" required />
+                    <div class="invalid-feedback">Silahkan isi alamat Anda.</div>
                 </div>
                 <!-- End Input Alamat -->
-                <br>
 
                 <!-- Start Submit Button -->
                 <button class="btn btn-primary btn-block col-lg-2" type="submit">Submit</button>
@@ -98,22 +99,18 @@
     </div>
     <!-- End Card -->
 
-
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
-    <!-- Start Scritp for Form -->
+    <!-- Start Script for Form -->
     <script>
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
         (function() {
             'use strict';
             window.addEventListener('load', function() {
-                // Fetch all the forms we want to apply custom Bootstrap validation styles to
                 var forms = document.getElementsByClassName('needs-validation');
-                // Loop over them and prevent submission
                 var validation = Array.prototype.filter.call(forms, function(form) {
                     form.addEventListener('submit', function(event) {
                         if (form.checkValidity() === false) {
@@ -126,11 +123,7 @@
             }, false);
         })();
     </script>
-    <!-- End Scritp for Form -->
-
-    <script>
-
-    </script>
+    <!-- End Script for Form -->
 </body>
 
 </html>

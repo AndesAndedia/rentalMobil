@@ -90,7 +90,7 @@ $arr = mysqli_fetch_array($data);
                     <div class="form-group">
                         <label for="inputName">NIK</label>
                         <input type="text" class="form-control" id="inputName" name="nik" value="<?php echo $arr['nik']; ?>" required readonly />
-                        <small class="form-text text-muted">Kami tidak akan memberikan nomor NIK anda ke siapapun</small>
+                        <small class="form-text text-muted">Kami tidak akan memberikan nomor NIK Anda ke siapapun</small>
                     </div>
                     <!-- End Input NIK -->
 
@@ -98,7 +98,7 @@ $arr = mysqli_fetch_array($data);
                     <div class="form-group">
                         <label for="inputName">Nama</label>
                         <input type="text" class="form-control" id="inputName" name="nama" value="<?php echo $arr['nama']; ?>" required />
-                        <small class="form-text text-muted">Silahkan isi nama anda</small>
+                        <small class="form-text text-muted">Silahkan isi nama Anda</small>
                     </div>
                     <!-- End Input Name -->
 
@@ -112,7 +112,7 @@ $arr = mysqli_fetch_array($data);
                     <div class="form-group">
                         <label for="inputPhone">Nomor Telepon</label>
                         <input type="tel" class="form-control" id="inputPhone" name="no_telp" value="<?php echo $arr['no_telp']; ?>" required />
-                        <small class="form-text text-muted">Kami tidak akan memberikan nomor anda ke siapapun</small>
+                        <small class="form-text text-muted">Kami tidak akan memberikan nomor Anda ke siapapun</small>
                     </div>
                     <!-- End Input Telephone -->
 
@@ -121,7 +121,7 @@ $arr = mysqli_fetch_array($data);
                     <div class="form-group">
                         <label for="inputName">SIM</label>
                         <input type="text" class="form-control" id="inputName" name="sim" value="<?php echo $arr['sim']; ?>" required />
-                        <small class="form-text text-muted">Silahkan isi nomor SIM anda</small>
+                        <small class="form-text text-muted">Silahkan isi nomor SIM Anda</small>
                     </div>
                     <!-- End Input SIM -->
 
@@ -130,7 +130,7 @@ $arr = mysqli_fetch_array($data);
                     <div class="form-group">
                         <label for="inputName">Alamat</label>
                         <input type="text" class="form-control" id="inputName" name="alamat" value="<?php echo $arr['alamat']; ?>" required />
-                        <small class="form-text text-muted">Silahkan isi Alamat anda</small>
+                        <small class="form-text text-muted">Silahkan isi Alamat Anda</small>
                     </div>
                     <!-- End Input Alamat -->
                     <br>
