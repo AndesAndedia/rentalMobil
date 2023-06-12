@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($totalBiaya) {
             $query = mysqli_query($con, "UPDATE pelanggan SET nama = '$nama', jk = '$jk', sim = '$sim', no_telp = '$no', alamat = '$alamat' where nik = '$nik' ");
             $query2 = mysqli_query($con, "INSERT INTO rental (nik, tanggal, nopol, status, lama, total) VALUES ('$nik', '$tanggal', '$nopol', '0', '$durationDays', '$totalBiaya')");
-            $query3 = mysqli_query($con, "UPDATE mobil set status = 2 where nopol = '$nopol' ");
+            $query3 = mysqli_query($con, "UPDATE mobil set status = '2' where nopol = '$nopol' ");
 
             if ($query && $query2 && $query3) {
                 sleep(5);
