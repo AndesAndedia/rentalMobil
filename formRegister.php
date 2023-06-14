@@ -53,8 +53,8 @@
                 <!-- Start Input Telephone -->
                 <div class="form-group">
                     <label for="inputPhone">Nomor Telepon</label>
-                    <input type="tel" class="form-control" id="inputPhone" name="no_telp" placeholder="08********" required />
-                    <div class="invalid-feedback">Silahkan isi nomor telepon Anda.</div>
+                    <input type="tel" class="form-control" id="inputPhone" name="no_telp" placeholder="08********" pattern="[0-9]{8,}" required />
+                    <div class="invalid-feedback">Silahkan isi nomor telepon Anda dengan minimal 8 digit.</div>
                 </div>
                 <!-- End Input Telephone -->
 
@@ -69,7 +69,7 @@
                 <div class="form-group">
                     <label for="inputNIK">NIK</label>
                     <input type="text" class="form-control" id="inputNIK" name="nik" placeholder="NIK Anda" pattern="[0-9]{16}" title="NIK harus terdiri dari 16 angka" required />
-                    <div class="invalid-feedback">Silahkan isi NIK Anda dengan 10 angka.</div>
+                    <div class="invalid-feedback">Silahkan isi NIK Anda dengan 16 angka.</div>
                 </div>
                 <!-- End Input NIK -->
 

@@ -91,7 +91,6 @@ $arr = mysqli_fetch_array($data);
                     <div class="form-group">
                         <label for="inputName">NIK</label>
                         <input type="text" class="form-control" id="inputName" name="nik" value="<?php echo $arr['nik']; ?>" required readonly />
-                        <small class="form-text text-muted">Kami tidak akan memberikan nomor NIK Anda ke siapapun</small>
                         <div class="invalid-feedback">NIK harus diisi.</div>
                     </div>
                     <!-- End Input NIK -->
@@ -100,7 +99,6 @@ $arr = mysqli_fetch_array($data);
                     <div class="form-group">
                         <label for="inputName">Nama</label>
                         <input type="text" class="form-control" id="inputName" name="nama" value="<?php echo $arr['nama']; ?>" required />
-                        <small class="form-text text-muted">Silahkan isi nama Anda</small>
                         <div class="invalid-feedback">Nama harus diisi.</div>
                     </div>
                     <!-- End Input Name -->
@@ -115,9 +113,8 @@ $arr = mysqli_fetch_array($data);
                     <!-- Start Input Telephone -->
                     <div class="form-group">
                         <label for="inputPhone">Nomor Telepon</label>
-                        <input type="tel" class="form-control" id="inputPhone" name="no_telp" value="<?php echo $arr['no_telp']; ?>" required />
-                        <small class="form-text text-muted">Kami tidak akan memberikan nomor Anda ke siapapun</small>
-                        <div class="invalid-feedback">Nomor Telepon harus diisi.</div>
+                        <input type="tel" class="form-control" id="inputPhone" name="no_telp" value="<?php echo $arr['no_telp']; ?>" required pattern="[0-9]{8}" title="Nomor Telepon harus terdiri dari 10 digit angka" />
+                        <div class="invalid-feedback">Nomor Telepon harus diisi dengan 8 digit angka.</div>
                     </div>
                     <!-- End Input Telephone -->
 
@@ -126,7 +123,6 @@ $arr = mysqli_fetch_array($data);
                     <div class="form-group">
                         <label for="inputName">SIM</label>
                         <input type="text" class="form-control" id="inputName" name="sim" value="<?php echo $arr['sim']; ?>" required />
-                        <small class="form-text text-muted">Silahkan isi nomor SIM Anda</small>
                         <div class="invalid-feedback">Nomor SIM harus diisi.</div>
                     </div>
                     <!-- End Input SIM -->
@@ -136,7 +132,6 @@ $arr = mysqli_fetch_array($data);
                     <div class="form-group">
                         <label for="inputName">Alamat</label>
                         <input type="text" class="form-control" id="inputName" name="alamat" value="<?php echo $arr['alamat']; ?>" required />
-                        <small class="form-text text-muted">Silahkan isi Alamat Anda</small>
                         <div class="invalid-feedback">Alamat harus diisi.</div>
                     </div>
                     <!-- End Input Alamat -->
@@ -148,6 +143,7 @@ $arr = mysqli_fetch_array($data);
                 </form>
                 <!-- End Form -->
             </div>
+
             <!-- End Card Body -->
         </div>
         <!-- End Card -->
