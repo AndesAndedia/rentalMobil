@@ -337,15 +337,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </div>
   <!-- ./wrapper -->
 
-  <!-- REQUIRED SCRIPTS -->
-  <script>
-    function updateLabel(input) {
-      var fileName = input.files[0].name;
-      var label = document.getElementById("gambarMobilLabel");
-      label.innerHTML = fileName;
-    }
-  </script>
-
 </body>
 
 </html>

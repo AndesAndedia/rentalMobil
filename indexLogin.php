@@ -155,8 +155,6 @@ http://www.templatemo.com/tm-511-journey
                 <div class="tab-content clearfix">
 
                     <!-- Tab 1 -->
-
-
                     <div class="tab-pane fade" id="1a">
 
                         <div class="tm-recommended-place-wrap">

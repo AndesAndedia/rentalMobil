@@ -331,14 +331,6 @@ require 'head.php'; ?>
 	</div>
 	<!-- ./wrapper -->
 
-	<!-- REQUIRED SCRIPTS -->
-	<script>
-		function updateLabel(input) {
-			var fileName = input.files[0].name;
-			var label = document.getElementById("gambarMobilLabel");
-			label.innerHTML = fileName;
-		}
-	</script>
 
 </body>
 
